@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_anchorGravity="top">
+
+    <TextView
+        android:id="@+id/resultados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="---RESULTADOS---"
+        android:textAlignment="center"
+        android:textColor="#00796B"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtsuma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Suma:"
+        android:textColor="#00796B"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtresta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resta:"
+        android:textColor="#00796B"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtmulti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Multiplicación:"
+        android:textColor="#00796B"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtdivision"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="División:"
+        android:textColor="#00796B"
+        android:textSize="24sp" />
+</LinearLayout>
