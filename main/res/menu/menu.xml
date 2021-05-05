@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mListado"
+        android:icon="@drawable/ic_listado"
+        android:title="Listado completo"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/mFavorita"
+        android:icon="@drawable/ic_fav"
+        android:title="Favoritas"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/mAnadir"
+        android:icon="@drawable/ic_anadir"
+        android:title="Añadir Estreno"
+        app:showAsAction="always" />
+</menu>
