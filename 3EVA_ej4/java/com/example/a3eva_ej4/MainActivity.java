@@ -115,5 +115,13 @@ public class MainActivity extends AppCompatActivity {
         rv.setLayoutManager(pLayout);
         rv.setAdapter(pAdapter);
         rv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+
+        pAdapter.setOnItemClickListener(new pAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                peliTitulo.setText(peliculas.get(position).getTitulo());
+                pAdapter.notifyItemChanged(position);
+            }
+        });
     }
 }

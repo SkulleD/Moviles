@@ -2,6 +2,7 @@ package com.example.a3eva_ej4;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -18,6 +19,9 @@ public class pListado extends AppCompatActivity {
     private pListadoAdapter pListadoAdapter;
     private RecyclerView rv;
     private RecyclerView.LayoutManager pLayout;
+    int posi;
+    int request = 1;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,5 +77,16 @@ public class pListado extends AppCompatActivity {
         rv.setLayoutManager(pLayout);
         rv.setAdapter(pListadoAdapter);
         rv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+
+        pListadoAdapter.setOnItemClickListener(new pListadoAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intentInfo = new Intent(pListado.this, pInfoPeli.class);
+                posi = position;
+                Log.i("pos", "" + position);
+                intentInfo.putExtra("info", request);
+               // startActivity(intentInfo);
+            }
+        });
     }
 }

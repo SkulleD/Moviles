@@ -22,6 +22,10 @@ public class pAdapter extends RecyclerView.Adapter<pAdapter.MyViewHolder> {
         void onItemClick(int position);
     }
 
+    public void setOnItemClickListener(onItemClickListener listener) {
+        pListener = listener;
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView poster;
         private ImageView pCalificacion;
@@ -40,7 +44,6 @@ public class pAdapter extends RecyclerView.Adapter<pAdapter.MyViewHolder> {
                 public void onClick(View v) {
                     if (listener != null) {
                         int position = getAdapterPosition();
-
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }

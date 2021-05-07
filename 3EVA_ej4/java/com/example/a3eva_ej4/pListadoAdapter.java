@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 public class pListadoAdapter extends RecyclerView.Adapter<pListadoAdapter.MyViewHolder> {
     ArrayList<Pelicula> peliculas;
-    private onItemClickListener pListener;
+    onItemClickListener pListener;
 
     public pListadoAdapter(ArrayList<Pelicula> peliculas) {
         this.peliculas = peliculas;
@@ -25,6 +25,10 @@ public class pListadoAdapter extends RecyclerView.Adapter<pListadoAdapter.MyView
         void onItemClick(int position);
     }
 
+    public void setOnItemClickListener(onItemClickListener listener) {
+        pListener = listener;
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView poster;
         private ImageView pCalificacion;
@@ -32,7 +36,7 @@ public class pListadoAdapter extends RecyclerView.Adapter<pListadoAdapter.MyView
         private TextView pDirector;
         private TextView pDuracion;
         private TextView pSala;
-        private CalendarView pfecha;
+        private TextView pfecha;
 
         public MyViewHolder(View itemView, final pListadoAdapter.onItemClickListener listener) {
             super(itemView);
@@ -60,7 +64,7 @@ public class pListadoAdapter extends RecyclerView.Adapter<pListadoAdapter.MyView
     }
 
     @Override
-    public pListadoAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View elemento = LayoutInflater.from(parent.getContext()).inflate(R.layout.elemento_listado, parent, false);
         pListadoAdapter.MyViewHolder mvh = new pListadoAdapter.MyViewHolder(elemento, pListener);
         return mvh;
