@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intentList = new Intent(this, pListado.class);
         Intent intentFav = new Intent(this, pFavoritas.class);
-        Intent intentNueva = new Intent(this, pNueva.class);
+        Intent intentNueva = new Intent(this, pAnadirPeli.class);
 
         switch (item.getItemId()) {
             case R.id.mListado:

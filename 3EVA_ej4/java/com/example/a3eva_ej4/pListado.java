@@ -71,21 +71,21 @@ public class pListado extends AppCompatActivity {
 
     public void crearRecyclerView() {
         pListadoAdapter = new pListadoAdapter(peliculas);
-        rv = findViewById(R.id.recyclerListado);
+        rv = findViewById(R.id.recyclerFavs);
         rv.setHasFixedSize(true);
         pLayout = new LinearLayoutManager(this);
         rv.setLayoutManager(pLayout);
         rv.setAdapter(pListadoAdapter);
         rv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+        Intent intentPeliInfo = new Intent(this, pInfoPeli.class);
 
         pListadoAdapter.setOnItemClickListener(new pListadoAdapter.onItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intentInfo = new Intent(pListado.this, pInfoPeli.class);
                 posi = position;
                 Log.i("pos", "" + position);
-                intentInfo.putExtra("info", request);
-               // startActivity(intentInfo);
+                intentPeliInfo.putExtra("info", request);
+                startActivity(intentPeliInfo);
             }
         });
     }
