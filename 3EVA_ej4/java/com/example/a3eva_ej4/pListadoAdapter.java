@@ -48,7 +48,7 @@ public class pListadoAdapter extends RecyclerView.Adapter<pListadoAdapter.MyView
             this.pSala = itemView.findViewById(R.id.pSala);
             this.pfecha = itemView.findViewById(R.id.pFechaEstreno);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            poster.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
