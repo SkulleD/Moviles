@@ -85,4 +85,11 @@ public class Pelicula implements Serializable{
     public void setDuracion(int duracion) {
         this.duracion=duracion;
     }
+
+    @Override
+    public String toString() {
+        return "Pelicula{" +
+                "titulo='" + titulo + '\'' +
+                '}';
+    }
 }

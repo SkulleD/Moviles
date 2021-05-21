@@ -6,36 +6,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class pFavoritas extends AppCompatActivity {
     private ArrayList<Pelicula> peliculas;
-    private pFavAdapter pFavAdapter;
-    private RecyclerView rv;
-    private RecyclerView.LayoutManager pLayout;
+    private ListView listView;
+    private ArrayAdapter<Pelicula> arrayAdapter;
+    private Datos datos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recycler);
-
-        crearLista();
-        crearRecyclerView();
-    }
-
-    public void crearLista() {
-        Datos datos = new Datos();
+        setContentView(R.layout.list_favs);
+        listView = findViewById(R.id.listViewFavs);
+        datos = new Datos();
         peliculas = datos.rellenaPeliculas();
-    }
 
-    public void crearRecyclerView() {
-        pFavAdapter = new pFavAdapter(peliculas);
-        rv = findViewById(R.id.recyclerFavs);
-        rv.setHasFixedSize(true);
-        pLayout = new LinearLayoutManager(this);
-        rv.setLayoutManager(pLayout);
-        rv.setAdapter(pFavAdapter);
+        arrayAdapter = new ArrayAdapter<Pelicula>(this, android.R.layout.simple_list_item_1, peliculas);
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String cadena = "Posición" + position + "\n" + arrayAdapter.getItem(position) + "\n" + peliculas.get(position);
+                Toast.makeText(pFavoritas.this, cadena, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

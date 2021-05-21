@@ -26,7 +26,7 @@ public class pInfoPeli extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
 
         Log.i("pos", "fdf ");
-        peli = (Pelicula)getIntent().getSerializableExtra("info");
+        peli = (Pelicula) getIntent().getSerializableExtra("info");
         actionbar.setTitle(peli.getTitulo());
 
         poster.setImageResource(peli.getPortada());
