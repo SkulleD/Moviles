@@ -7,12 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.os.Build;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.view.GestureDetectorCompat;
 
 import java.util.HashMap;
 
@@ -28,6 +30,7 @@ public class SurfaceViewClase extends SurfaceView implements SurfaceHolder.Callb
     private boolean esTitulo = true;
     private static final int MIN_DXDY = 2;
     final private static HashMap<Integer, PointF> posiciones = new HashMap<>();
+    public GestureDetectorCompat detectorGestos;
 
     public SurfaceViewClase(Context context) {
         super(context);
@@ -39,6 +42,7 @@ public class SurfaceViewClase extends SurfaceView implements SurfaceHolder.Callb
         setFocusable(true);
         imagenFondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.fondovivas);
         imagenNave = BitmapFactory.decodeResource(context.getResources(), R.drawable.nave);
+        detectorGestos = new GestureDetectorCompat(context, new DetectorDeGestos());
     }
 
     public void actualizaFisica() {
@@ -96,6 +100,7 @@ public class SurfaceViewClase extends SurfaceView implements SurfaceHolder.Callb
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         synchronized (surfaceHolder) {
+            detectorGestos.onTouchEvent(event);
             int pointerIndex = event.getActionIndex();
             int pointerID = event.getPointerId(pointerIndex);
             int accion = event.getActionMasked();
