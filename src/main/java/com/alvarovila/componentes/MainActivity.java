@@ -1,5 +1,9 @@
 package com.alvarovila.componentes;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     ImageButton imgBtn;
     boolean decrement = false;
+    ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,16 @@ public class MainActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         imgBtn = findViewById(R.id.imageButton);
 
-
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode()==RESULT_OK) {
+                    Intent intent = result.getData();
+                    editText.setText(intent.getStringExtra("texto2"));
+                    rating.setRating(intent.getFloatExtra("valor2", 3));
+                }
+            }
+        });
 
         button1.setOnClickListener(new View.OnClickListener() { // REINICIAR T0D0
             @Override
@@ -71,19 +85,20 @@ public class MainActivity extends AppCompatActivity {
                 btnSwitch.setChecked(false);
                 rating.setRating(3);
                 editText.setText("");
-                check1.setChecked(false);
-                check2.setChecked(false);
-                check3.setChecked(false);
                 radio1.setChecked(false);
                 radio2.setChecked(false);
                 seekbar.setProgress(0);
+                tglButton.setChecked(false);
+                check1.setChecked(false);
+                check2.setChecked(false);
+                check3.setChecked(false);
             }
         });
 
         tglButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                check1.setChecked(!tglButton.isChecked());
+                check1.setChecked(!b);
             }
         });
 
@@ -143,11 +158,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!decrement) {
                     cont++;
-                    txtView2.setText(cont + "");
                 } else {
                     cont--;
-                    txtView2.setText(cont + "");
                 }
+
+                txtView2.setText(cont + "");
             }
         });
 
@@ -158,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("valor", rating.getRating());
                 intent.putExtra("texto", editText.getText().toString());
 
-                startActivity(intent);
+                launcher.launch(intent);
             }
         });
 

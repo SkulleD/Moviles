@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -25,10 +26,21 @@ public class Secundaria extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar2);
         btnDevolver = findViewById(R.id.btnDevolver);
 
-        Intent intent3 = getIntent();
-        editText2.setText(intent3.getStringExtra("texto"));
-        ratingBar.setRating(intent3.getFloatExtra("valor", 3));
-        Log.i("valor string", intent3.getStringExtra("texto"));
-        Log.i("valor float", String.valueOf(intent3.getFloatExtra("valor", 3)));
+        Intent intent2= getIntent();
+        editText2.setText(intent2.getStringExtra("texto"));
+        ratingBar.setRating(intent2.getFloatExtra("valor", 3));
+        Log.i("valor string", intent2.getStringExtra("texto"));
+        Log.i("valor float", String.valueOf(intent2.getFloatExtra("valor", 3)));
+
+        btnDevolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("valor2", ratingBar.getRating());
+                intent.putExtra("texto2", editText2.getText().toString());
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 }
