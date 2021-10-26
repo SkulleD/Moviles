@@ -9,4 +9,5 @@
     <string name="numero">Number</string>
     <string name="introNombre">Enter your name</string>
     <string name="label2">ImageButton and a button with image</string>
+    <string name="llamar">Call</string>
 </resources>

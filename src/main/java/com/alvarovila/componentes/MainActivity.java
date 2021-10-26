@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.media.Rating;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     RadioButton radio2;
     RadioGroup radioGroup;
     ImageButton imgBtn;
+    Button btnLlamar;
     boolean decrement = false;
     ActivityResultLauncher<Intent> launcher;
 
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         radio2 = findViewById(R.id.radioButton2);
         radioGroup = findViewById(R.id.radioGroup);
         imgBtn = findViewById(R.id.imageButton);
+        btnLlamar = findViewById(R.id.btnLlamar);
 
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
@@ -75,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = result.getData();
                     editText.setText(intent.getStringExtra("texto2"));
                     rating.setRating(intent.getFloatExtra("valor2", 3));
+                    txtView2.setText(String.valueOf(intent.getFloatExtra("valor2", 0)));
+                    Log.i("devuelto string", intent.getStringExtra("texto2"));
+                    Log.i("devuelto float", String.valueOf(intent.getFloatExtra("valor", 3)));
                 }
             }
         });
@@ -191,6 +198,15 @@ public class MainActivity extends AppCompatActivity {
                     cadena = "Pulsado el segundo";
                     Toast.makeText(getApplicationContext(), cadena, Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btnLlamar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + editText.getText().toString()));
+                launcher.launch(intent);
             }
         });
     }

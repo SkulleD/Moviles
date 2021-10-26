@@ -10,4 +10,5 @@
     <string name="numero">Número</string>
     <string name="introNombre">Introduce tu nombre</string>
     <string name="label2">ImageButton y un botón con image</string>
+    <string name="llamar">Llamar</string>
 </resources>
