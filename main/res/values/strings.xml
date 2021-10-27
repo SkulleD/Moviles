@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Componentes</string>
+    <string name="button">Button</string>
+    <string name="reiniciar">Restart</string>
+    <string name="apagado">Off</string>
+    <string name="encendido">On</string>
+    <string name="desactivado">Deactivated</string>
+    <string name="activo">Active</string>
+    <string name="numero">Number</string>
+    <string name="introNombre">Enter your name</string>
+    <string name="label2">ImageButton and a button with image</string>
+    <string name="llamar">Call</string>
+</resources>
