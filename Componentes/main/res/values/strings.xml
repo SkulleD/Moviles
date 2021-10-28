@@ -10,4 +10,7 @@
     <string name="introNombre">Enter your name</string>
     <string name="label2">ImageButton and a button with image</string>
     <string name="llamar">Call</string>
+    <string name="nuevo">New</string>
+    <string name="borrar">Remove</string>
+    <string name="editar">Edit</string>
 </resources>

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Componentes">
         <activity
+            android:name=".Terciaria"
+            android:exported="true" />
+        <activity
             android:name=".Secundaria"
             android:exported="true" />
         <activity

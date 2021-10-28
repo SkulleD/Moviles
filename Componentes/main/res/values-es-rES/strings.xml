@@ -11,4 +11,7 @@
     <string name="introNombre">Introduce tu nombre</string>
     <string name="label2">ImageButton y un botón con image</string>
     <string name="llamar">Llamar</string>
+    <string name="nuevo">Nuevo</string>
+    <string name="borrar">Borrar</string>
+    <string name="editar">Editar</string>
 </resources>

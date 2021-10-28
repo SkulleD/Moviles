@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,10 @@ import android.media.Rating;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -173,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        imgBtn.setOnClickListener(new View.OnClickListener() {
+        imgBtn.setOnClickListener(new View.OnClickListener() { // Llamar a Secundaria
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Secundaria.class);
@@ -209,5 +214,36 @@ public class MainActivity extends AppCompatActivity {
                 launcher.launch(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.itemNuevo:
+                Intent intent = new Intent(MainActivity.this, Terciaria.class);
+                intent.putExtra("checked1", check1.isChecked());
+                intent.putExtra("checked2", check2.isChecked());
+                intent.putExtra("checked3", check3.isChecked());
+
+
+                launcher.launch(intent);
+                return true;
+            case R.id.itemBorrar:
+                txtView2.setText("" + 0);
+                seekbar.setProgress(0);
+                return true;
+            case R.id.itemEditar:
+                editText.setText("");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

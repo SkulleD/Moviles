@@ -1,11 +1,15 @@
 package com.alvarovila.componentes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +29,12 @@ public class Secundaria extends AppCompatActivity {
         editText2 = findViewById(R.id.textSecundaria);
         ratingBar = findViewById(R.id.ratingBar2);
         btnDevolver = findViewById(R.id.btnDevolver);
+        getSupportActionBar().hide();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent2= getIntent();
         editText2.setText(intent2.getStringExtra("texto"));
@@ -42,5 +52,13 @@ public class Secundaria extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
