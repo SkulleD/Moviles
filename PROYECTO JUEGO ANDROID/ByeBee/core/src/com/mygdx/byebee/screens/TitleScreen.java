@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class TitleScreen extends State implements Screen {
+public class TitleScreen implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
@@ -22,14 +22,6 @@ public class TitleScreen extends State implements Screen {
         bgTitle = new Texture("bee_title.png");
 
         spriteBatch = new SpriteBatch();
-    }
-
-    @Override
-    protected void handleInput() {
-        if (Gdx.input.justTouched()) {
-
-            dispose();
-        }
     }
 
     @Override

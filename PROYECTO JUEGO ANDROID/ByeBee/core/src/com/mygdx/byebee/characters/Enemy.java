@@ -1,0 +1,39 @@
+package com.mygdx.byebee.characters;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.byebee.screens.ByeBee;
+
+
+public class Enemy extends Character {
+    public Enemy(float posX, float posY, float width, float height, Texture texture, int health) {
+        super(posX, posY, width, height, texture, health);
+        speed = new Vector2(0, 0);
+    }
+
+    public void update(float deltaTime) {
+        speed.scl(deltaTime);
+        posX += speed.x;
+        speed.scl(1/deltaTime);
+    }
+
+    public Rectangle getHitbox() {
+        return new Rectangle(posX, posY, width, height);
+    }
+
+    public void move() {
+        speed.x = -300;
+
+        // Intento fallido de movimiento semi aleatorio (terrible)
+        //if (this.posY > ByeBee.HEIGHT) {
+        //    trayectoria = ByeBee.random.nextFloat() * 1;
+
+        //    if (trayectoria == 1) {
+        //        speed.y = 20;
+        //    } else {
+        //        speed.y = -20;
+        //    }
+        //}
+    }
+}

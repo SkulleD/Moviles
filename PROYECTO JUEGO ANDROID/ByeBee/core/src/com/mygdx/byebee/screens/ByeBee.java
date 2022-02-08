@@ -5,12 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.byebee.screens.TitleScreen;
 
+import java.util.Random;
+
 public class ByeBee extends Game {
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
 	public static final String TITLE = "ByeBee";
+	public static Random random = new Random();
+
 	private TitleScreen titleScreen;
-	private Level1 level1; // Solo para probar, luego lo borro
+	private Level1 level1; // Solo para probar, luego lo borro porque aquí deberia llamar a la title screen
 
 	@Override
 	public void create () {
