@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.byebee.characters.Bee;
@@ -23,11 +24,13 @@ public class Level1 implements Screen {
 
     private Texture[] backgrounds;
 
-    // Timing thingies
+    // Timing cosas
     private float[] bgOffsets = {0, 0, 0, 0}; // Para el efecto parallax
     private float bgMaxScrollSpeed; // Para el movimiento del escenario
-    private float timeBetweenEnemySpawns = 5f;
-    private float enemySpawnTimer = 0;
+    private float timeBetweenSpawnsBird = 7f;
+    private float timeBetweenSpawnsBeeLancer = 3f;
+    private float birdSpawnTimer = 0;
+    private float beeLancerSpawnTimer = 0;
 
     // Icono de salud
     private Health health;
@@ -41,6 +44,7 @@ public class Level1 implements Screen {
     private Enemy beeLancer;
 
     public Level1() {
+
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
@@ -124,33 +128,27 @@ public class Level1 implements Screen {
                 bee.setSpeed(new Vector2(0, 50)); // Esto es solo de prueba. La abeja perdería 1/7 de vida aquí
                 bee.setHealth(bee.getHealth() - 1);
                 //enemyListIterator.remove(); // (DE PRUEBA) borra el enemigo chocado
-
-                if (enemySpawnTimer > timeBetweenEnemySpawns) {
-
-                }
                 break;
             }
         }
     }
 
     private void spawnEnemies(float deltaTime) { // Hace que los enemigos vayan apareciendo de forma aleatoria
-        enemySpawnTimer += deltaTime;
-        System.out.println("000000000 " + enemySpawnTimer + " " + timeBetweenEnemySpawns);
+        birdSpawnTimer += deltaTime;
+        beeLancerSpawnTimer += deltaTime;
 
-        if (enemySpawnTimer > timeBetweenEnemySpawns) {
+        if (birdSpawnTimer > timeBetweenSpawnsBird) {
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), // PÁJARO
                     250, 200, new Texture("bird.png"), 10));
 
-            enemySpawnTimer -= timeBetweenEnemySpawns;
-            System.out.println("222222222222");
+            birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
-        if (enemySpawnTimer > timeBetweenEnemySpawns) {
+        if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) {
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), // ABEJA LANCERA
                     250, 200, new Texture("bee_lancer.png"), 5));
 
-            enemySpawnTimer -= timeBetweenEnemySpawns;
-            System.out.println("222222222222");
+            beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }
     }
 

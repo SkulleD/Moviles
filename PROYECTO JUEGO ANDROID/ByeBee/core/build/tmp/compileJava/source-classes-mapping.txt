@@ -4,11 +4,11 @@ com/mygdx/byebee/characters/Character.java
  com.mygdx.byebee.characters.Character
 com/mygdx/byebee/characters/Enemy.java
  com.mygdx.byebee.characters.Enemy
-com/mygdx/byebee/screens/ByeBee.java
- com.mygdx.byebee.screens.ByeBee
-com/mygdx/byebee/characters/Health.java
- com.mygdx.byebee.characters.Health
 com/mygdx/byebee/characters/Bee.java
  com.mygdx.byebee.characters.Bee
+com/mygdx/byebee/characters/Health.java
+ com.mygdx.byebee.characters.Health
+com/mygdx/byebee/screens/ByeBee.java
+ com.mygdx.byebee.screens.ByeBee
 com/mygdx/byebee/screens/Level1.java
  com.mygdx.byebee.screens.Level1

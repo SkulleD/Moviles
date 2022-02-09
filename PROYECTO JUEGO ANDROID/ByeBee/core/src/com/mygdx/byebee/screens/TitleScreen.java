@@ -14,8 +14,10 @@ public class TitleScreen implements Screen {
     private Viewport viewport;
     private SpriteBatch spriteBatch;
     private Texture bgTitle;
+    private ByeBee byebee;
 
-    public TitleScreen() {
+    public TitleScreen(ByeBee byebee) {
+        this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
@@ -31,6 +33,10 @@ public class TitleScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if (Gdx.input.justTouched()) {
+            byebee.setLevel1();
+        }
+
         spriteBatch.begin();
         spriteBatch.draw(bgTitle, 0, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
         spriteBatch.end();
