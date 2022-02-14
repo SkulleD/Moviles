@@ -7,6 +7,8 @@ import com.mygdx.byebee.screens.ByeBee;
 
 
 public class Enemy extends Character {
+    private boolean hasHit;
+
     public Enemy(float posX, float posY, float width, float height, Texture texture, int health) {
         super(posX, posY, width, height, texture, health);
         speed = new Vector2(0, 0);
@@ -35,5 +37,13 @@ public class Enemy extends Character {
         //        speed.y = -20;
         //    }
         //}
+    }
+
+    public boolean isHasHit() {
+        return hasHit;
+    }
+
+    public void setHasHit(boolean hasHit) {
+        this.hasHit = hasHit;
     }
 }

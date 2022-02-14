@@ -15,7 +15,6 @@ import java.awt.Paint;
 
 public class Bee extends Character {
     private static final int GRAVITY = -5;
-    private boolean invincible = false;
 
     public Bee(float posX, float posY, float width, float height, Texture texture, int health) {
         super(posX, posY, width, height, texture, health);
@@ -41,19 +40,5 @@ public class Bee extends Character {
                 posY = 0;
             }
         }
-    }
-
-    public void invincibilityFrames() {
-        boolean result;
-        long delta = System.currentTimeMillis();
-
-    }
-
-    public boolean isInvincible() {
-        return invincible;
-    }
-
-    public void setInvincible(boolean invincible) {
-        this.invincible = invincible;
     }
 }

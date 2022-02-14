@@ -32,7 +32,7 @@ public class Level1 implements Screen {
     private float birdSpawnTimer = 0;
     private float beeLancerSpawnTimer = 0;
 
-    // Icono de salud
+    // Salud de la abeja
     private Health health;
 
     // Personaje controlable
@@ -125,8 +125,10 @@ public class Level1 implements Screen {
             Enemy enemy = enemyListIterator.next();
 
             if (bee.intersects(enemy.getHitbox())) {
-                bee.setSpeed(new Vector2(0, 50)); // Esto es solo de prueba. La abeja perdería 1/7 de vida aquí
-                bee.setHealth(bee.getHealth() - 1);
+                if (!enemy.isHasHit()) {
+                    enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
+                    bee.setHealth(bee.getHealth() - 1);
+                }
                 //enemyListIterator.remove(); // (DE PRUEBA) borra el enemigo chocado
                 break;
             }
