@@ -14,7 +14,7 @@ import java.awt.Canvas;
 import java.awt.Paint;
 
 public class Bee extends Character {
-    private static final int GRAVITY = -5;
+    private static int GRAVITY = -4;
 
     public Bee(float posX, float posY, float width, float height, Texture texture, int health) {
         super(posX, posY, width, height, texture, health);
@@ -22,10 +22,27 @@ public class Bee extends Character {
     }
 
     public void update(float deltaTime) {
+        if (posY > 0) {
+            speed.add(0, GRAVITY); // Cada vez cae más rápido
+        }
+
         speed.add(0, GRAVITY);
         speed.scl(deltaTime);
         posY += speed.y;
         speed.scl(1/deltaTime);
+
+        if (posY < 0) { // Si caes al suelo es fin del juego
+            GRAVITY = -90;
+            this.health = 0;
+        }
+
+        if (posY > ByeBee.HEIGHT) { // Impide que puedas ir demasiado alto
+            GRAVITY = -200;
+        }
+
+        if (posY > 0 && posY < ByeBee.HEIGHT) { // Reestablece la gravedad a la normalidad
+            GRAVITY = -4;
+        }
     }
 
     public Rectangle getHitbox() {

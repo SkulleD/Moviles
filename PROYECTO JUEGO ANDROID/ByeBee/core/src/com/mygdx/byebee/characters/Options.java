@@ -1,7 +1,10 @@
 package com.mygdx.byebee.characters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.byebee.screens.ByeBee;
 
 public class Options {
     float posX;
@@ -9,6 +12,7 @@ public class Options {
     float width;
     float height;
     Texture texture;
+    Rectangle boton;
 
     public Options(float posX, float posY, float width, float height, Texture texture) {
         this.posX = posX;
@@ -16,6 +20,7 @@ public class Options {
         this.width = width;
         this.height = height;
         this.texture = texture;
+        boton = new Rectangle(this.posX, this.posY, this.width, this.height);
     }
 
     public float getPosX() {
@@ -56,5 +61,13 @@ public class Options {
 
     public void setTexture(Texture texture) {
         this.texture = texture;
+    }
+
+    public Rectangle getBoton() {
+        return boton;
+    }
+
+    public void setBoton(Rectangle boton) {
+        this.boton = boton;
     }
 }

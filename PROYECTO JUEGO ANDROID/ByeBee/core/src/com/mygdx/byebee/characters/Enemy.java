@@ -18,6 +18,14 @@ public class Enemy extends Character {
         speed.scl(deltaTime);
         posX += speed.x;
         speed.scl(1/deltaTime);
+
+        if (posY < 0) { // Impide que los enemigos salgan por debajo de la pantalla
+            posY = (float) (Math.random() * ByeBee.HEIGHT + 1);
+        }
+
+        if (posY > ByeBee.HEIGHT) { // Impide que los enemigos salgan por encima de la pantalla
+            posY = (float) (Math.random() * ByeBee.HEIGHT + 1);
+        }
     }
 
     public Rectangle getHitbox() {
