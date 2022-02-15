@@ -10,17 +10,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class ScoreScreen implements Screen {
+public class LevelSelect implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
+    private Texture bgLevels;
     private ByeBee byebee;
 
-    public ScoreScreen(ByeBee byebee) {
+    public LevelSelect(ByeBee byebee) {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
+        bgLevels = new Texture("beeNiveles.png");
         spriteBatch = new SpriteBatch();
     }
 
@@ -32,6 +34,7 @@ public class ScoreScreen implements Screen {
     @Override
     public void render(float delta) {
         spriteBatch.begin();
+        spriteBatch.draw(bgLevels, 0, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
         detectTouch();
         spriteBatch.end();
     }
@@ -44,8 +47,8 @@ public class ScoreScreen implements Screen {
             System.out.println("AAAAAAAA");
 
             //if (optionsPlay.getBoton().contains(touched)) {
-            System.out.println("BBBBBBBBB");
-
+                System.out.println("BBBBBBBBB");
+                byebee.setLevel1();
             //}
         }
     }

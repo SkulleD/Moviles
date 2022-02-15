@@ -44,7 +44,6 @@ public class Level1 implements Screen {
     private Enemy beeLancer;
 
     public Level1() {
-
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 

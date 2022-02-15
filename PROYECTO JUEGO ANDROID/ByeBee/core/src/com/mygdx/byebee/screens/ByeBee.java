@@ -20,6 +20,7 @@ public class ByeBee extends Game {
 	private InfoScreen infoScreen;
 	private SettingsScreen settingsScreen;
 	private ScoreScreen scoreScreen;
+	private LevelSelect levelSelect;
 	private Level1 level1;
 
 	// Métodos para llamar a las diferentes pantallas
@@ -29,12 +30,32 @@ public class ByeBee extends Game {
 		setScreen(titleScreen);
 	}
 
-	public void setCreditsScreen() {
+	public void setCreditsScreen() { // Pantalla de cŕeditos
 		creditsScreen = new CreditsScreen(this);
 		setScreen(creditsScreen);
 	}
 
-	public void setLevel1() {
+	public void setInfoScreen() { // Pantalla de información del juego
+		infoScreen = new InfoScreen(this);
+		setScreen(creditsScreen);
+	}
+
+	public void setScoreScreen() { // Pantalla de puntuaciones máximas
+		scoreScreen = new ScoreScreen(this);
+		setScreen(creditsScreen);
+	}
+
+	public void setSettingsScreen() { // Pantalla de ajustes
+		settingsScreen = new SettingsScreen(this);
+		setScreen(creditsScreen);
+	}
+
+	public void setLevelSelect() { // Pantalla de selección de nivel
+		levelSelect = new LevelSelect(this);
+		setScreen(levelSelect);
+	}
+
+	public void setLevel1() { // Pantalla de nivel 1
 		level1 = new Level1();
 		setScreen(level1);
 	}
