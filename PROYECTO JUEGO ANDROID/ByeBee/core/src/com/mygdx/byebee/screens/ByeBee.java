@@ -37,17 +37,17 @@ public class ByeBee extends Game {
 
 	public void setInfoScreen() { // Pantalla de información del juego
 		infoScreen = new InfoScreen(this);
-		setScreen(creditsScreen);
+		setScreen(infoScreen);
 	}
 
 	public void setScoreScreen() { // Pantalla de puntuaciones máximas
 		scoreScreen = new ScoreScreen(this);
-		setScreen(creditsScreen);
+		setScreen(scoreScreen);
 	}
 
 	public void setSettingsScreen() { // Pantalla de ajustes
 		settingsScreen = new SettingsScreen(this);
-		setScreen(creditsScreen);
+		setScreen(settingsScreen);
 	}
 
 	public void setLevelSelect() { // Pantalla de selección de nivel

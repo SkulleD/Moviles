@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.byebee.characters.Options;
 
 public class LevelSelect implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
     private Texture bgLevels;
+    private Options btnBack;
     private ByeBee byebee;
 
     public LevelSelect(ByeBee byebee) {
@@ -23,6 +25,7 @@ public class LevelSelect implements Screen {
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
         bgLevels = new Texture("beeNiveles.png");
+        btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
         spriteBatch = new SpriteBatch();
     }
 
@@ -35,6 +38,7 @@ public class LevelSelect implements Screen {
     public void render(float delta) {
         spriteBatch.begin();
         spriteBatch.draw(bgLevels, 0, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
+        spriteBatch.draw(btnBack.getTexture(), btnBack.getPosX(), btnBack.getPosY(), btnBack.getWidth(), btnBack.getHeight());
         detectTouch();
         spriteBatch.end();
     }
@@ -44,12 +48,16 @@ public class LevelSelect implements Screen {
 
         if (Gdx.input.justTouched()) {
             touched = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-            System.out.println("AAAAAAAA");
 
             //if (optionsPlay.getBoton().contains(touched)) {
-                System.out.println("BBBBBBBBB");
+                System.out.println("LEVEL SELECTED");
                 byebee.setLevel1();
             //}
+
+            if (btnBack.getBoton().contains(touched)) {
+                System.out.println("BACK");
+                byebee.setTitleScreen();
+            }
         }
     }
 
