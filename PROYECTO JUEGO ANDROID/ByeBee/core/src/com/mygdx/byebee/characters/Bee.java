@@ -36,8 +36,8 @@ public class Bee extends Character {
             this.health = 0;
         }
 
-        if (posY > ByeBee.HEIGHT) { // Impide que puedas ir demasiado alto
-            GRAVITY = -200;
+        if (posY > ByeBee.HEIGHT - this.getHeight()) { // Impide que puedas salirte del alto de la pantalla
+            posY = ByeBee.HEIGHT - this.getHeight();
         }
 
         if (posY > 0 && posY < ByeBee.HEIGHT) { // Reestablece la gravedad a la normalidad
