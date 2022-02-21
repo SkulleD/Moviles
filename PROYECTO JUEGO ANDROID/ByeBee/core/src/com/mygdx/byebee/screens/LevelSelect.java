@@ -17,6 +17,10 @@ public class LevelSelect implements Screen {
     private SpriteBatch spriteBatch;
     private Texture bgLevels;
     private Options btnBack;
+    private Options btnLvl1;
+    private Options btnLvl2;
+    private Options btnLvl3;
+    private Options btnLvl4;
     private ByeBee byebee;
 
     public LevelSelect(ByeBee byebee) {
@@ -24,8 +28,10 @@ public class LevelSelect implements Screen {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
-        bgLevels = new Texture("beeNiveles.png");
+        bgLevels = new Texture("beeNiveles_Vacio.png");
         btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
+        btnLvl1 = new Options(ByeBee.WIDTH / 20, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles1.png"));
+        btnLvl2 = new Options(ByeBee.WIDTH / 12 + btnLvl1.getWidth(), ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles2.png"));
         spriteBatch = new SpriteBatch();
     }
 
@@ -39,6 +45,8 @@ public class LevelSelect implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(bgLevels, 0, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
         spriteBatch.draw(btnBack.getTexture(), btnBack.getPosX(), btnBack.getPosY(), btnBack.getWidth(), btnBack.getHeight());
+        spriteBatch.draw(btnLvl1.getTexture(), btnLvl1.getPosX(), btnLvl1.getPosY(), btnLvl1.getWidth(), btnLvl1.getHeight());
+        spriteBatch.draw(btnLvl2.getTexture(), btnLvl2.getPosX(), btnLvl2.getPosY(), btnLvl2.getWidth(), btnLvl2.getHeight());
         detectTouch();
         spriteBatch.end();
     }
@@ -49,10 +57,15 @@ public class LevelSelect implements Screen {
         if (Gdx.input.justTouched()) {
             touched = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 
-            //if (optionsPlay.getBoton().contains(touched)) {
-                System.out.println("LEVEL SELECTED");
+            if (btnLvl1.getBoton().contains(touched)) {
+                System.out.println("LEVEL 1 SELECTED");
                 byebee.setLevel1();
-            //}
+            }
+
+            if (btnLvl2.getBoton().contains(touched)) {
+                System.out.println("LEVEL 2 SELECTED");
+                byebee.setLevel2();
+            }
 
             if (btnBack.getBoton().contains(touched)) {
                 System.out.println("BACK");
