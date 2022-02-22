@@ -57,12 +57,12 @@ public class ByeBee extends Game {
 	}
 
 	public void setLevel1() { // Pantalla de nivel 1
-		level1 = new Level1();
+		level1 = new Level1(this);
 		setScreen(level1);
 	}
 
 	public void setLevel2() { // Pantalla de nivel 2
-		level2 = new Level2();
+		level2 = new Level2(this);
 		setScreen(level2);
 	}
 
@@ -83,8 +83,6 @@ public class ByeBee extends Game {
 
 	@Override
 	public void dispose () {
-		titleScreen.dispose();
+		//titleScreen.dispose();
 	}
-
-
 }

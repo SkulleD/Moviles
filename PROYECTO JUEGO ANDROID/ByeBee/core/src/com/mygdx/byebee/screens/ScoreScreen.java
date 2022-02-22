@@ -79,6 +79,6 @@ public class ScoreScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        this.dispose();
     }
 }

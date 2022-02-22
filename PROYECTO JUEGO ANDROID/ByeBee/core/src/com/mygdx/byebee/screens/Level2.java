@@ -18,6 +18,7 @@ public class Level2 implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
+    private ByeBee byebee;
 
     private Texture[] backgrounds;
 
@@ -40,7 +41,8 @@ public class Level2 implements Screen {
     private Enemy bird;
     private Enemy beeLancer;
 
-    public Level2() {
+    public Level2(ByeBee byebee) {
+        this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
@@ -53,7 +55,7 @@ public class Level2 implements Screen {
 
         enemyList = new LinkedList<>();
 
-        health = new Health(10, ByeBee.HEIGHT - 100, 90, 90, new Texture[8]);
+        health = new Health(10, ByeBee.HEIGHT - 100, ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture[8]);
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
                 150, 150, new Texture("bee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
@@ -84,7 +86,6 @@ public class Level2 implements Screen {
         // Los enemigos van apareciendo aleatoriamente cada cierto tiempo
 
         for (int i = 0; i < enemyList.size(); i++) {
-            System.out.println("333333333");
             enemyList.get(i).move();
             enemyList.get(i).update(deltaTime);
 

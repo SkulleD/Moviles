@@ -1,19 +1,19 @@
 package com.mygdx.byebee.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.byebee.characters.Bee;
 import com.mygdx.byebee.characters.Enemy;
 import com.mygdx.byebee.characters.Health;
+import com.mygdx.byebee.characters.Options;
 
-import java.io.Console;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -21,16 +21,20 @@ public class Level1 implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
+    private ByeBee byebee;
 
     private Texture[] backgrounds;
 
-    // Timing cosas
-    private float[] bgOffsets = {0, 0, 0, 0}; // Para el efecto parallax
+    // Timings del movimiento de fondo y spawns de enemigos
+    private float[] bgOffsets = {0, 0, 0, 0}; // Para el efecto parallax del fondo
     private float bgMaxScrollSpeed; // Para el movimiento del escenario
+
     private float timeBetweenSpawnsBird = 7f;
     private float timeBetweenSpawnsBeeLancer = 3f;
+    private float timeBetweenSpawnsMeta = 9f;
     private float birdSpawnTimer = 0;
     private float beeLancerSpawnTimer = 0;
+    private float metaSpawnTimer = 0;
 
     // Salud de la abeja
     private Health health;
@@ -43,7 +47,18 @@ public class Level1 implements Screen {
     private Enemy bird;
     private Enemy beeLancer;
 
-    public Level1() {
+    // Fin del juego y nivel completado
+    private boolean stopRunning = false; // Las cosas se detienen al aparecer el mensaje
+    private boolean optionsMenu = false; // Los botones se vuelven activos en cuanto se pierda o gane la partida
+    private Texture gameOver;
+    private Options btnRetry;
+    private Options btnMenu;
+    private Texture levelCompleted;
+    private Options btnContinue;
+    private Enemy meta;
+
+    public Level1(ByeBee byebee) {
+        this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
@@ -56,13 +71,21 @@ public class Level1 implements Screen {
 
         enemyList = new LinkedList<>();
 
-        health = new Health(10, ByeBee.HEIGHT - 100, 90, 90, new Texture[8]);
+        health = new Health(10, ByeBee.HEIGHT - 100, ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture[8]);
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
-                150, 150, new Texture("bee.png"), 7);
+                ByeBee.WIDTH / 7, ByeBee.HEIGHT / 6, new Texture("bee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("bird.png"), 10);
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bird.png"), 10);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("bee_lancer.png"), 4);
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bee_lancer.png"), 4);
+
+        meta = new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("beeMeta.png"), 100);
+
+        gameOver = new Texture("beeGameOver_vacio.png");
+        btnRetry = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnReintentar.png"));
+        btnMenu = new Options(btnRetry.getPosX() * 2 + btnRetry.getWidth() / 2, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnVolverMenu.png"));
+        levelCompleted = new Texture("beeLevelFinished_vacio.png");
+        btnContinue = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnContinuar.png"));
 
         spriteBatch = new SpriteBatch();
     }
@@ -87,7 +110,6 @@ public class Level1 implements Screen {
         // Los enemigos van apareciendo aleatoriamente cada cierto tiempo
 
         for (int i = 0; i < enemyList.size(); i++) {
-            System.out.println("333333333");
             enemyList.get(i).move();
             enemyList.get(i).update(deltaTime);
 
@@ -97,7 +119,8 @@ public class Level1 implements Screen {
         }
 
         drawHealth(); // Muestra el indicador de vida
-
+        gameOver(); // Fin del juego aparece en cuanto la abeja pierda toda su vida
+        detectTouch();
         spriteBatch.end();
     }
 
@@ -107,57 +130,96 @@ public class Level1 implements Screen {
         bgOffsets[2] += deltaTime * bgMaxScrollSpeed / 2;
         bgOffsets[3] += deltaTime * bgMaxScrollSpeed;
 
-        for (int layer = 0; layer < bgOffsets.length; layer++) { // Va recorriendo las capas del fondo y mostrándolas
-            if (bgOffsets[layer] > ByeBee.WIDTH) {
-                bgOffsets[layer] = 0;
+            for (int layer = 0; layer < bgOffsets.length; layer++) { // Va recorriendo las capas del fondo y mostrándolas
+                if (bgOffsets[layer] > ByeBee.WIDTH) {
+                    bgOffsets[layer] = 0;
+                }
+
+                spriteBatch.draw(backgrounds[layer], -bgOffsets[layer], 0, ByeBee.WIDTH, ByeBee.HEIGHT);
+                spriteBatch.draw(backgrounds[layer], -bgOffsets[layer] + ByeBee.WIDTH, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
             }
 
-            spriteBatch.draw(backgrounds[layer], -bgOffsets[layer], 0, ByeBee.WIDTH, ByeBee.HEIGHT);
-            spriteBatch.draw(backgrounds[layer], -bgOffsets[layer] + ByeBee.WIDTH, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
-        }
     }
 
     private void detectCollisions() { // Detecta colisiones de hitboxes
         ListIterator<Enemy> enemyListIterator = enemyList.listIterator();
 
-        while (enemyListIterator.hasNext()) {
-            Enemy enemy = enemyListIterator.next();
+            while (enemyListIterator.hasNext()) {
+                Enemy enemy = enemyListIterator.next();
 
-            if (bee.intersects(enemy.getHitbox())) {
-                if (!enemy.isHasHit()) {
-                    enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
-                    bee.setHealth(bee.getHealth() - 1);
+                if (bee.intersects(meta.getHitbox())) {
+                    gameOver();
                 }
-                //enemyListIterator.remove(); // (DE PRUEBA) borra el enemigo chocado
-                break;
+
+                if (bee.intersects(enemy.getHitbox())) {
+                    if (!enemy.isHasHit()) {
+                        enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
+                        bee.setHealth(bee.getHealth() - 1);
+                    }
+                    break;
+                }
             }
-        }
     }
 
     private void spawnEnemies(float deltaTime) { // Hace que los enemigos vayan apareciendo de forma aleatoria
         birdSpawnTimer += deltaTime;
         beeLancerSpawnTimer += deltaTime;
+        metaSpawnTimer += deltaTime;
 
-        if (birdSpawnTimer > timeBetweenSpawnsBird) {
-            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), // PÁJARO
+        if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
+            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                     250, 200, new Texture("bird.png"), 10));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
-        if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) {
-            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), // ABEJA LANCERA
+        if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
+            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                     250, 200, new Texture("bee_lancer.png"), 5));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
+        }
+
+        if (metaSpawnTimer > timeBetweenSpawnsMeta) { // META FINAL DE NIVEL
+            enemyList.add(new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("beeMeta.png"), 100));
+
+            metaSpawnTimer -= timeBetweenSpawnsMeta;
         }
     }
 
     private void drawHealth() {
         if (bee.getHealth() >= 0) {
             spriteBatch.draw(health.getTexture()[bee.getHealth()], health.getPosX(), health.getPosY(), health.getWidth(), health.getHeight());
+            optionsMenu = false;
         } else {
+            optionsMenu = true;
             spriteBatch.draw(health.getTexture()[0], health.getPosX(), health.getPosY(), health.getWidth(), health.getHeight());
+        }
+    }
+
+    private void gameOver() {
+        if (bee.getHealth() == 0) {
+            spriteBatch.draw(gameOver, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 5, gameOver.getWidth(), gameOver.getHeight());
+            spriteBatch.draw(btnRetry.getTexture(), btnRetry.getPosX(), btnRetry.getPosY(), btnRetry.getWidth(), btnRetry.getHeight());
+            spriteBatch.draw(btnMenu.getTexture(), btnMenu.getPosX(), btnMenu.getPosY(), btnMenu.getWidth(), btnMenu.getHeight());
+        }
+    }
+
+    public void detectTouch() {
+        Vector2 touched; // Guarda las coordenadas para saber en qué parte de la pantalla se toca
+
+        if (Gdx.input.justTouched()) {
+            touched = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+
+            if (btnRetry.getBoton().contains(touched) && optionsMenu) {
+                System.out.println("RETRY LEVEL 1");
+                byebee.setLevel1();
+            }
+
+            if (btnMenu.getBoton().contains(touched) && optionsMenu) {
+                System.out.println("BACK TO MENU");
+                byebee.setLevelSelect();
+            }
         }
     }
 
