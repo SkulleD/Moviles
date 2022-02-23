@@ -8,10 +8,12 @@ import com.mygdx.byebee.screens.ByeBee;
 
 public class Enemy extends Character {
     private boolean hasHit;
+    private boolean isMeta;
 
-    public Enemy(float posX, float posY, float width, float height, Texture texture, int health) {
+    public Enemy(float posX, float posY, float width, float height, Texture texture, int health, boolean isMeta) {
         super(posX, posY, width, height, texture, health);
         speed = new Vector2(0, 0);
+        this.isMeta = isMeta;
     }
 
     public void update(float deltaTime) {
@@ -52,6 +54,18 @@ public class Enemy extends Character {
     }
 
     public void setHasHit(boolean hasHit) {
-        this.hasHit = hasHit;
+        if (isMeta) {
+            this.hasHit = false;
+        } else {
+            this.hasHit = hasHit;
+        }
+    }
+
+    public boolean isMeta() {
+        return isMeta;
+    }
+
+    public void setMeta(boolean meta) {
+        isMeta = meta;
     }
 }

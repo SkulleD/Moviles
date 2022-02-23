@@ -40,7 +40,7 @@ public class Bee extends Character {
             posY = ByeBee.HEIGHT - this.getHeight();
         }
 
-        if (posY > 0 && posY < ByeBee.HEIGHT) { // Reestablece la gravedad a la normalidad
+        if (posY > 0 && posY < ByeBee.HEIGHT) { // Restablece la gravedad a la normalidad
             GRAVITY = -4;
         }
     }
@@ -50,12 +50,20 @@ public class Bee extends Character {
     }
 
     public void fly() {
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.justTouched() && this.health > 0) {
             if (this.posY > 0) {
                 speed.y = 170;
             } else {
                 posY = 0;
             }
         }
+    }
+
+    public static int getGRAVITY() {
+        return GRAVITY;
+    }
+
+    public static void setGRAVITY(int GRAVITY) {
+        Bee.GRAVITY = GRAVITY;
     }
 }
