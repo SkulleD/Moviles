@@ -59,9 +59,9 @@ public class Level2 implements Screen {
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
                 150, 150, new Texture("bee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("bird.png"), 10);
+                170, 170, new Texture("bird.png"), 10, false);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("bee_lancer.png"), 4);
+                170, 170, new Texture("bee_lancer.png"), 4, false);
 
         spriteBatch = new SpriteBatch();
     }
@@ -137,14 +137,14 @@ public class Level2 implements Screen {
 
         if (birdSpawnTimer > timeBetweenSpawnsBird) {
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), // PÁJARO
-                    250, 200, new Texture("bird.png"), 10));
+                    250, 200, new Texture("bird.png"), 10, false));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) {
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), // ABEJA LANCERA
-                    250, 200, new Texture("bee_lancer.png"), 5));
+                    250, 200, new Texture("bee_lancer.png"), 5, false));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }
