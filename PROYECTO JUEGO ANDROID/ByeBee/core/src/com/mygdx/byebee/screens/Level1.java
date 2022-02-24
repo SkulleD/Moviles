@@ -31,7 +31,7 @@ public class Level1 implements Screen {
 
     private float timeBetweenSpawnsBird = 7f;
     private float timeBetweenSpawnsBeeLancer = 3f;
-    private float timeBetweenSpawnsMeta = 4f;
+    private float timeBetweenSpawnsMeta = 8f;
     private float birdSpawnTimer = 0;
     private float beeLancerSpawnTimer = 0;
     private float metaSpawnTimer = 0;
@@ -88,7 +88,7 @@ public class Level1 implements Screen {
         btnRetry = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnReintentar.png"));
         btnMenu = new Options(btnRetry.getPosX() * 2 + btnRetry.getWidth() / 2, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnVolverMenu.png"));
         levelCompleted = new Texture("beeLevelFinished_vacio.png");
-        btnContinue = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnContinuar.png"));
+        btnContinue = new Options(ByeBee.WIDTH / 8 + btnRetry.getWidth(), ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnContinuar.png"));
 
         spriteBatch = new SpriteBatch();
     }
@@ -113,6 +113,11 @@ public class Level1 implements Screen {
         // Los enemigos van apareciendo aleatoriamente cada cierto tiempo
 
         for (int i = 0; i < enemyList.size(); i++) {
+            if (optionsMenu) {
+                enemyList.get(i).setFinJuego(true);
+                bee.setFinJuego(true);
+            }
+
             enemyList.get(i).move();
             enemyList.get(i).update(deltaTime);
 
@@ -124,6 +129,7 @@ public class Level1 implements Screen {
         drawHealth(); // Muestra el indicador de vida
         gameOver(); // Fin del juego aparece en cuanto la abeja pierda toda su vida
         levelCompleted(); // Nivel completado en cuanto se llega a la meta
+
         detectTouch(); // Para detectar toques en pantalla
         spriteBatch.end();
     }
@@ -153,8 +159,8 @@ public class Level1 implements Screen {
             if (bee.intersects(enemy.getHitbox())) { // Si la abeja toca la meta se completa el nivel
                 if (enemy.isMeta()) {
                     bee.setGRAVITY(0);
-                    levelFinished = true;
                     optionsMenu = true;
+                    levelFinished = true;
                 } else {
                     if (!enemy.isHasHit()) {
                         enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
@@ -213,6 +219,7 @@ public class Level1 implements Screen {
 
     private void levelCompleted() {
         if (levelFinished) {
+            System.out.println("FINISH LINE");
             spriteBatch.draw(levelCompleted, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 5, levelCompleted.getWidth(), levelCompleted.getHeight());
             spriteBatch.draw(btnContinue.getTexture(), btnContinue.getPosX(), btnContinue.getPosY(), btnContinue.getWidth(), btnContinue.getHeight());
         }
@@ -223,6 +230,7 @@ public class Level1 implements Screen {
 
         if (Gdx.input.justTouched()) {
             touched = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            System.out.println("TOUCHED");
 
             if (btnRetry.getBoton().contains(touched) && optionsMenu) { // VOLVER A INTENTAR EL NIVEL
                 System.out.println("RETRY LEVEL 1");
