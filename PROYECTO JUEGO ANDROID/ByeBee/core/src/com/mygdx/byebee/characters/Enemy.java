@@ -7,13 +7,16 @@ import com.mygdx.byebee.screens.ByeBee;
 
 
 public class Enemy extends Character {
+    private Vector2 speed;
     private boolean hasHit;
     private boolean isMeta;
+    private boolean finJuego;
 
     public Enemy(float posX, float posY, float width, float height, Texture texture, int health, boolean isMeta) {
         super(posX, posY, width, height, texture, health);
-        speed = new Vector2(0, 0);
+        this.speed = new Vector2(0, 0);
         this.isMeta = isMeta;
+        this.finJuego = false;
     }
 
     public void update(float deltaTime) {
@@ -35,7 +38,11 @@ public class Enemy extends Character {
     }
 
     public void move() {
-        speed.x = -300;
+        if (finJuego) {
+            speed.x = 0;
+        } else {
+            speed.x = -300;
+        }
 
         // Intento fallido de movimiento semi aleatorio (terrible)
         //if (this.posY > ByeBee.HEIGHT) {
@@ -67,5 +74,13 @@ public class Enemy extends Character {
 
     public void setMeta(boolean meta) {
         isMeta = meta;
+    }
+
+    public boolean isFinJuego() {
+        return finJuego;
+    }
+
+    public void setFinJuego(boolean finJuego) {
+        this.finJuego = finJuego;
     }
 }
