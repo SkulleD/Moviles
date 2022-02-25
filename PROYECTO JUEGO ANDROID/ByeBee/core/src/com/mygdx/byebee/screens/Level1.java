@@ -140,13 +140,15 @@ public class Level1 implements Screen {
         bgOffsets[2] += deltaTime * bgMaxScrollSpeed / 2;
         bgOffsets[3] += deltaTime * bgMaxScrollSpeed;
 
-        for (int layer = 0; layer < bgOffsets.length; layer++) { // Va recorriendo las capas del fondo y mostrándolas
-            if (bgOffsets[layer] > ByeBee.WIDTH) {
-                bgOffsets[layer] = 0;
-            }
+        if (!optionsMenu) {
+            for (int layer = 0; layer < bgOffsets.length; layer++) { // Va recorriendo las capas del fondo y mostrándolas
+                if (bgOffsets[layer] > ByeBee.WIDTH) {
+                    bgOffsets[layer] = 0;
+                }
 
-            spriteBatch.draw(backgrounds[layer], -bgOffsets[layer], 0, ByeBee.WIDTH, ByeBee.HEIGHT);
-            spriteBatch.draw(backgrounds[layer], -bgOffsets[layer] + ByeBee.WIDTH, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
+                spriteBatch.draw(backgrounds[layer], -bgOffsets[layer], 0, ByeBee.WIDTH, ByeBee.HEIGHT);
+                spriteBatch.draw(backgrounds[layer], -bgOffsets[layer] + ByeBee.WIDTH, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
+            }
         }
     }
 
@@ -163,6 +165,7 @@ public class Level1 implements Screen {
                     levelFinished = true;
                 } else {
                     if (!enemy.isHasHit()) {
+                        System.out.println("BEE IS HIT");
                         enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                         bee.setHealth(bee.getHealth() - 1);
                     }
@@ -201,7 +204,11 @@ public class Level1 implements Screen {
     private void drawHealth() {
         if (bee.getHealth() > 0) {
             spriteBatch.draw(health.getTexture()[bee.getHealth()], health.getPosX(), health.getPosY(), health.getWidth(), health.getHeight());
-            optionsMenu = false;
+
+            if (!levelFinished) {
+                optionsMenu = false;
+            }
+
         } else {
             optionsMenu = true;
             spriteBatch.draw(health.getTexture()[0], health.getPosX(), health.getPosY(), health.getWidth(), health.getHeight());

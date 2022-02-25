@@ -32,6 +32,8 @@ public class LevelSelect implements Screen {
         btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
         btnLvl1 = new Options(ByeBee.WIDTH / 20, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles1.png"));
         btnLvl2 = new Options(ByeBee.WIDTH / 12 + btnLvl1.getWidth(), ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles2.png"));
+        btnLvl3 = new Options(ByeBee.WIDTH / 9 + btnLvl2.getWidth() * 2, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles3.png"));
+        btnLvl4 = new Options(ByeBee.WIDTH / 3 + btnLvl3.getWidth() * 2, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles4.png"));
         spriteBatch = new SpriteBatch();
     }
 
@@ -47,6 +49,8 @@ public class LevelSelect implements Screen {
         spriteBatch.draw(btnBack.getTexture(), btnBack.getPosX(), btnBack.getPosY(), btnBack.getWidth(), btnBack.getHeight());
         spriteBatch.draw(btnLvl1.getTexture(), btnLvl1.getPosX(), btnLvl1.getPosY(), btnLvl1.getWidth(), btnLvl1.getHeight());
         spriteBatch.draw(btnLvl2.getTexture(), btnLvl2.getPosX(), btnLvl2.getPosY(), btnLvl2.getWidth(), btnLvl2.getHeight());
+        spriteBatch.draw(btnLvl3.getTexture(), btnLvl3.getPosX(), btnLvl3.getPosY(), btnLvl3.getWidth(), btnLvl3.getHeight());
+        spriteBatch.draw(btnLvl4.getTexture(), btnLvl4.getPosX(), btnLvl4.getPosY(), btnLvl4.getWidth(), btnLvl4.getHeight());
         detectTouch();
         spriteBatch.end();
     }
