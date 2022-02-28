@@ -3,8 +3,10 @@ package com.mygdx.byebee.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -13,6 +15,7 @@ import com.mygdx.byebee.characters.Bee;
 import com.mygdx.byebee.characters.Enemy;
 import com.mygdx.byebee.characters.Health;
 import com.mygdx.byebee.characters.Options;
+import com.mygdx.byebee.characters.Score;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -21,6 +24,7 @@ public class Level1 implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
+    private BitmapFont texto;
     private ByeBee byebee;
 
     private Texture[] backgrounds;
@@ -31,7 +35,7 @@ public class Level1 implements Screen {
 
     private float timeBetweenSpawnsBird = 7f;
     private float timeBetweenSpawnsBeeLancer = 3f;
-    private float timeBetweenSpawnsMeta = 8f;
+    private float timeBetweenSpawnsMeta = 2f;
     private float birdSpawnTimer = 0;
     private float beeLancerSpawnTimer = 0;
     private float metaSpawnTimer = 0;
@@ -41,6 +45,9 @@ public class Level1 implements Screen {
 
     // Personaje controlable
     private Bee bee;
+
+    // Puntuación en pantalla
+    private Score puntuacion;
 
     // Enemigos
     private LinkedList<Enemy> enemyList;
@@ -85,10 +92,17 @@ public class Level1 implements Screen {
         meta = new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("beeMeta.png"), 100, true);
 
         gameOver = new Texture("beeGameOver_vacio.png");
-        btnRetry = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnReintentar.png"));
-        btnMenu = new Options(btnRetry.getPosX() * 2 + btnRetry.getWidth() / 2, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnVolverMenu.png"));
+        btnRetry = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT / 4, Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 5, new Texture("btnReintentar.png"));
+        btnMenu = new Options(btnRetry.getPosX() * 2 + btnRetry.getWidth() / 2, ByeBee.HEIGHT / 4, Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 5, new Texture("btnVolverMenu.png"));
         levelCompleted = new Texture("beeLevelFinished_vacio.png");
         btnContinue = new Options(ByeBee.WIDTH / 8 + btnRetry.getWidth(), ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnContinuar.png"));
+
+        texto = new BitmapFont();
+        texto.getData().setScale(3);
+        texto.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        texto.setColor(Color.YELLOW);
+
+        puntuacion = new Score(texto, health.getPosX() + health.getWidth(), ByeBee.HEIGHT - health.getHeight() / 2);
 
         spriteBatch = new SpriteBatch();
     }
@@ -127,6 +141,7 @@ public class Level1 implements Screen {
         }
 
         drawHealth(); // Muestra el indicador de vida
+        scoringPoints(); // Llamada al método que controla la puntuación
         gameOver(); // Fin del juego aparece en cuanto la abeja pierda toda su vida
         levelCompleted(); // Nivel completado en cuanto se llega a la meta
 
@@ -168,6 +183,7 @@ public class Level1 implements Screen {
                         System.out.println("BEE IS HIT");
                         enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                         bee.setHealth(bee.getHealth() - 1);
+                        puntuacion.setScore(puntuacion.getScore() - 50);
                     }
                 }
                 break;
@@ -218,7 +234,8 @@ public class Level1 implements Screen {
     private void gameOver() {
         if (bee.getHealth() == 0) {
             System.out.println("GAME OVER");
-            spriteBatch.draw(gameOver, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 5, gameOver.getWidth(), gameOver.getHeight());
+            //spriteBatch.draw(gameOver, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 5, gameOver.getWidth(), gameOver.getHeight());
+            spriteBatch.draw(gameOver, Gdx.graphics.getWidth() / ByeBee.WIDTH, Gdx.graphics.getHeight() / ByeBee.HEIGHT, gameOver.getWidth(), gameOver.getHeight());
             spriteBatch.draw(btnRetry.getTexture(), btnRetry.getPosX(), btnRetry.getPosY(), btnRetry.getWidth(), btnRetry.getHeight());
             spriteBatch.draw(btnMenu.getTexture(), btnMenu.getPosX(), btnMenu.getPosY(), btnMenu.getWidth(), btnMenu.getHeight());
         }
@@ -227,8 +244,22 @@ public class Level1 implements Screen {
     private void levelCompleted() {
         if (levelFinished) {
             System.out.println("FINISH LINE");
-            spriteBatch.draw(levelCompleted, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 5, levelCompleted.getWidth(), levelCompleted.getHeight());
+            //spriteBatch.draw(levelCompleted, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 5, levelCompleted.getWidth(), levelCompleted.getHeight());
+            spriteBatch.draw(levelCompleted, Gdx.graphics.getWidth() / ByeBee.WIDTH, Gdx.graphics.getHeight() / ByeBee.HEIGHT, levelCompleted.getWidth(), levelCompleted.getHeight());
             spriteBatch.draw(btnContinue.getTexture(), btnContinue.getPosX(), btnContinue.getPosY(), btnContinue.getWidth(), btnContinue.getHeight());
+            texto.draw(spriteBatch, "Puntuación: " + puntuacion.getScore(), btnContinue.getPosX(), btnContinue.getPosY() + btnContinue.getHeight() + btnContinue.getHeight() / 2);
+
+            puntuacion.setHighScore(puntuacion.getScore());
+
+            System.out.println("Puntuacion: " + puntuacion.getScore());
+            System.out.println("Puntuacion Máxima: " + puntuacion.getHighScore());
+        }
+    }
+
+    private void scoringPoints() {
+        if (!optionsMenu) {
+            puntuacion.setScore(puntuacion.getScore() + 1);
+            texto.draw(spriteBatch, " Puntos: " + puntuacion.getScore(), puntuacion.getPosX(), puntuacion.getPosY());
         }
     }
 
@@ -279,6 +310,7 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
-
+        texto.dispose();
+        spriteBatch.dispose();
     }
 }
