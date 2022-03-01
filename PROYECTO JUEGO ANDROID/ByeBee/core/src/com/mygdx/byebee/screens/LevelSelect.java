@@ -71,6 +71,11 @@ public class LevelSelect implements Screen {
                 byebee.setLevel2();
             }
 
+            if (btnLvl3.getBoton().contains(touched)) {
+                System.out.println("LEVEL 3 SELECTED");
+                byebee.setLevel3();
+            }
+
             if (btnBack.getBoton().contains(touched)) {
                 System.out.println("BACK");
                 byebee.setTitleScreen();

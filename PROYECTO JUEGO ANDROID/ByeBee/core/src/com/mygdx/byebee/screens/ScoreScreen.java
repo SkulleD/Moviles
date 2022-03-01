@@ -23,6 +23,10 @@ public class ScoreScreen implements Screen {
     private Texture bgScore;
     private Options btnBack;
     private Score puntuacion;
+    private Score puntuacion2;
+    private Score puntuacion3;
+    private Score puntuacion4;
+
 
     public ScoreScreen(ByeBee byebee) {
         this.byebee = byebee;
@@ -37,7 +41,10 @@ public class ScoreScreen implements Screen {
         texto.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         texto.setColor(Color.YELLOW);
 
-        puntuacion = new Score(texto,Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        puntuacion4 = new Score(texto,ByeBee.WIDTH - btnBack.getWidth() * 2, ByeBee.HEIGHT / 3);
+        puntuacion3 = new Score(texto,ByeBee.WIDTH - btnBack.getWidth() * 2, puntuacion4.getPosY() + btnBack.getHeight() + btnBack.getHeight() / 14);
+        puntuacion2 = new Score(texto,ByeBee.WIDTH - btnBack.getWidth() * 2, puntuacion3.getPosY() + btnBack.getHeight() + btnBack.getHeight() / 10);
+        puntuacion = new Score(texto,ByeBee.WIDTH - btnBack.getWidth() * 2, puntuacion2.getPosY() + btnBack.getHeight() + btnBack.getHeight() / 14);
 
         spriteBatch = new SpriteBatch();
     }
@@ -52,6 +59,9 @@ public class ScoreScreen implements Screen {
         spriteBatch.begin();
         spriteBatch.draw(bgScore, 0, 0, ByeBee.WIDTH, byebee.HEIGHT);
         spriteBatch.draw(btnBack.getTexture(), btnBack.getPosX(), btnBack.getPosY(), btnBack.getWidth(), btnBack.getHeight());
+        texto.draw(spriteBatch, "" + puntuacion4.getHighScore4(), puntuacion4.getPosX(), puntuacion4.getPosY());
+        texto.draw(spriteBatch, "" + puntuacion3.getHighScore3(), puntuacion3.getPosX(), puntuacion3.getPosY());
+        texto.draw(spriteBatch, "" + puntuacion2.getHighScore2(), puntuacion2.getPosX(), puntuacion2.getPosY());
         texto.draw(spriteBatch, "" + puntuacion.getHighScore(), puntuacion.getPosX(), puntuacion.getPosY());
 
         detectTouch();

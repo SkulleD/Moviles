@@ -23,6 +23,7 @@ public class ByeBee extends Game {
 	private LevelSelect levelSelect;
 	private Level1 level1;
 	private Level2 level2;
+	private Level3 level3;
 
 	// Métodos para llamar a las diferentes pantallas
 
@@ -64,6 +65,11 @@ public class ByeBee extends Game {
 	public void setLevel2() { // Pantalla de nivel 2
 		level2 = new Level2(this);
 		setScreen(level2);
+	}
+
+	public void setLevel3() { // Pantalla de nivel 2
+		level3 = new Level3(this);
+		setScreen(level3);
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import com.mygdx.byebee.characters.Score;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class Level1 implements Screen {
+public class Level3 implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
@@ -30,12 +30,12 @@ public class Level1 implements Screen {
     private Texture[] backgrounds;
 
     // Timings del movimiento de fondo y spawns de enemigos
-    private float[] bgOffsets = {0, 0, 0, 0}; // Para el efecto parallax del fondo
+    private float[] bgOffsets = {0, 0, 0}; // Para el efecto parallax del fondo
     private float bgMaxScrollSpeed; // Para el movimiento del escenario
 
     private float timeBetweenSpawnsBird = 7f;
     private float timeBetweenSpawnsBeeLancer = 3f;
-    private float timeBetweenSpawnsMeta = 50f;
+    private float timeBetweenSpawnsMeta = 10f;
     private float birdSpawnTimer = 0;
     private float beeLancerSpawnTimer = 0;
     private float metaSpawnTimer = 0;
@@ -65,16 +65,15 @@ public class Level1 implements Screen {
     private Options btnContinue;
     private Enemy meta;
 
-    public Level1(ByeBee byebee) {
+    public Level3(ByeBee byebee) {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
-        backgrounds = new Texture[4];
-        backgrounds[0] = new Texture("lvl1_background3.png");
-        backgrounds[1] = new Texture("lvl1_background2.png");
-        backgrounds[2] = new Texture("lvl1_background1.png");
-        backgrounds[3] = new Texture("lvl1_foreground.png");
+        backgrounds = new Texture[3];
+        backgrounds[0] = new Texture("lvl3_background2.png");
+        backgrounds[1] = new Texture("lvl3_background1.png");
+        backgrounds[2] = new Texture("lvl3_foreground.png");
         bgMaxScrollSpeed = (float) (ByeBee.WIDTH / 4);
         optionsMenu = false; // Esto hace que las opciones que salen al perder o ganar solo aparezcan con esto a true
         levelFinished = false; // Lo de nivel completado aparece en cuanto esto esté true
@@ -152,7 +151,6 @@ public class Level1 implements Screen {
         bgOffsets[0] += deltaTime * bgMaxScrollSpeed / 8;
         bgOffsets[1] += deltaTime * bgMaxScrollSpeed / 4;
         bgOffsets[2] += deltaTime * bgMaxScrollSpeed / 2;
-        bgOffsets[3] += deltaTime * bgMaxScrollSpeed;
 
         if (!optionsMenu) {
             for (int layer = 0; layer < bgOffsets.length; layer++) { // Va recorriendo las capas del fondo y mostrándolas
@@ -182,7 +180,7 @@ public class Level1 implements Screen {
                         System.out.println("BEE IS HIT");
                         enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                         bee.setHealth(bee.getHealth() - 1);
-                        puntuacion.setScore(puntuacion.getScore() - 100); // Pierdes 100 puntos si un enemigo te toca
+                        puntuacion.setScore3(puntuacion.getScore3() - 100); // Pierdes 100 puntos si un enemigo te toca
                     }
                 }
                 break;
@@ -209,11 +207,11 @@ public class Level1 implements Screen {
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }
 
-       if (metaSpawnTimer > timeBetweenSpawnsMeta) { // META FINAL DE NIVEL
-           enemyList.add(new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("beeMeta.png"), 100, true, -400));
+        if (metaSpawnTimer > timeBetweenSpawnsMeta) { // META FINAL DE NIVEL
+            enemyList.add(new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT * 2, new Texture("beeMeta.png"), 100, true, -400));
 
-           metaSpawnTimer -= timeBetweenSpawnsMeta;
-       }
+            metaSpawnTimer -= timeBetweenSpawnsMeta;
+        }
     }
 
     private void drawHealth() {
@@ -248,22 +246,22 @@ public class Level1 implements Screen {
             spriteBatch.draw(btnContinue.getTexture(), btnContinue.getPosX(), btnContinue.getPosY(), btnContinue.getWidth(), btnContinue.getHeight());
 
             if (bee.isInvencible()) {
-                puntuacion.setScore(0);
+                puntuacion.setScore3(0);
             }
 
-            texto.draw(spriteBatch, "Puntuación: " + puntuacion.getScore(), btnContinue.getPosX(), btnContinue.getPosY() + btnContinue.getHeight() + btnContinue.getHeight() / 2);
+            texto.draw(spriteBatch, "Puntuación: " + puntuacion.getScore3(), btnContinue.getPosX(), btnContinue.getPosY() + btnContinue.getHeight() + btnContinue.getHeight() / 2);
 
-            puntuacion.setHighScore(puntuacion.getScore());
+            puntuacion.setHighScore3(puntuacion.getScore3());
 
-            System.out.println("Puntuacion: " + puntuacion.getScore());
-            System.out.println("Puntuacion Maxima: " + puntuacion.getHighScore());
+            System.out.println("Puntuacion: " + puntuacion.getScore3());
+            System.out.println("Puntuacion Maxima: " + puntuacion.getHighScore3());
         }
     }
 
     private void scoringPoints() {
         if (!optionsMenu) {
-            puntuacion.setScore(puntuacion.getScore() + 1);
-            texto.draw(spriteBatch, " Puntos: " + puntuacion.getScore(), puntuacion.getPosX(), puntuacion.getPosY());
+            puntuacion.setScore3(puntuacion.getScore3() + 1);
+            texto.draw(spriteBatch, " Puntos: " + puntuacion.getScore3(), puntuacion.getPosX(), puntuacion.getPosY());
         }
     }
 
@@ -314,7 +312,6 @@ public class Level1 implements Screen {
 
     @Override
     public void dispose() {
-        texto.dispose();
         spriteBatch.dispose();
     }
 }

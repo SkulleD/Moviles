@@ -88,7 +88,7 @@ public class TitleScreen implements Screen {
 
             if (optionsSettings.getBoton().contains(touched)) { // BOTÓN AJUSTES
                 System.out.println("SETTINGS");
-                //byebee.setSettingsScreen();
+                byebee.setSettingsScreen();
             }
 
             if (optionsRecords.getBoton().contains(touched)) { // BOTÓN PUNTUACIONES
