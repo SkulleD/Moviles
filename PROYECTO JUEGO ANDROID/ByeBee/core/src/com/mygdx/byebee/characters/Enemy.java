@@ -1,5 +1,6 @@
 package com.mygdx.byebee.characters;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -12,9 +13,9 @@ public class Enemy extends Character {
     private boolean isMeta;
     private boolean finJuego;
 
-    public Enemy(float posX, float posY, float width, float height, Texture texture, int health, boolean isMeta) {
+    public Enemy(float posX, float posY, float width, float height, Texture texture, int health, boolean isMeta, float speedX) {
         super(posX, posY, width, height, texture, health);
-        this.speed = new Vector2(0, 0);
+        this.speed = new Vector2(speedX, 0);
         this.isMeta = isMeta;
         this.finJuego = false;
     }
@@ -28,7 +29,7 @@ public class Enemy extends Character {
             posY = (float) (Math.random() * ByeBee.HEIGHT + 1);
         }
 
-        if (posY > ByeBee.HEIGHT) { // Impide que los enemigos salgan por encima de la pantalla
+        if (posY + this.height > Gdx.graphics.getHeight()) { // Impide que los enemigos salgan por encima de la pantalla (TODO HAY QUE ARREGLARLO)
             posY = (float) (Math.random() * ByeBee.HEIGHT + 1);
         }
     }
@@ -41,7 +42,7 @@ public class Enemy extends Character {
         if (finJuego) {
             speed.x = 0;
         } else {
-            speed.x = -300;
+            speed.x = -400;
         }
 
         // Intento fallido de movimiento semi aleatorio (terrible)

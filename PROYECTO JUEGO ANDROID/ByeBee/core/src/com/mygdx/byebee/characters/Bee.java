@@ -1,6 +1,7 @@
 package com.mygdx.byebee.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,11 +17,16 @@ import java.awt.Paint;
 public class Bee extends Character {
     private static int GRAVITY = -4;
     private boolean finJuego;
+    private boolean invencible;
+    Preferences preferences;
 
     public Bee(float posX, float posY, float width, float height, Texture texture, int health) {
         super(posX, posY, width, height, texture, health);
         this.speed = new Vector2(0, 0);
         this.finJuego = false;
+
+        preferences = Gdx.app.getPreferences("byebee");
+        this.invencible = preferences.getBoolean("invencible", false);
     }
 
     public void update(float deltaTime) {
@@ -81,5 +87,15 @@ public class Bee extends Character {
 
     public void setFinJuego(boolean finJuego) {
         this.finJuego = finJuego;
+    }
+
+    public boolean isInvencible() {
+        return invencible;
+    }
+
+    public void setInvencible(boolean invencible) {
+        this.invencible = invencible;
+        preferences.putBoolean("invencible", this.invencible);
+        preferences.flush();
     }
 }
