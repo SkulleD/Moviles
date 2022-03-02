@@ -1,12 +1,13 @@
 package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,6 +19,8 @@ public class TitleScreen implements Screen {
     private SpriteBatch spriteBatch;
     private Texture bgTitle;
     private ByeBee byebee;
+    private Preferences preferences;
+    private boolean checkMusicSound;
 
     //Se crean los botones de la pantalla del título
     private Options optionsInfo;
@@ -30,6 +33,13 @@ public class TitleScreen implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+        preferences = Gdx.app.getPreferences("byebee");
+        checkMusicSound = preferences.getBoolean("musicSound", true);
+
+        // && checkMusicSound
+        if (!byebee.bgmMenus.isPlaying()) { // Al salir de un nivel deja de sonar su música y vuelve a sonar la de los menús
+            byebee.bgmMenus.play();
+        }
 
         bgTitle = new Texture("beeTitleFinal.png");
         optionsInfo = new Options(0, 0, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_info.png"));
@@ -42,6 +52,7 @@ public class TitleScreen implements Screen {
         optionsInfo = new Options(0, ByeBee.HEIGHT - optionsInfo.getHeight(), ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_info.png"));
         optionsSettings = new Options(ByeBee.WIDTH - optionsSettings.getWidth(), ByeBee.HEIGHT - optionsCredits.getHeight(), ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_options.png"));
         optionsRecords = new Options(ByeBee.WIDTH - optionsRecords.getWidth(), 0, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_records.png"));
+
         spriteBatch = new SpriteBatch();
     }
 
@@ -121,6 +132,7 @@ public class TitleScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        spriteBatch.dispose();
+        this.dispose();
     }
 }

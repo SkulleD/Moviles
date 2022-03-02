@@ -2,17 +2,22 @@ package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.byebee.screens.TitleScreen;
 
 import java.util.Random;
 
-public class ByeBee extends Game {
+public class ByeBee extends Game implements Screen {
 	// Valores para usar durante el juego
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
 	public static final String TITLE = "ByeBee";
 	public static Random random = new Random();
+	public Music bgmMenus;
 
 	// Instaciación de las diferentes pantallas del juego
 	private TitleScreen titleScreen;
@@ -25,8 +30,13 @@ public class ByeBee extends Game {
 	private Level2 level2;
 	private Level3 level3;
 
-	// Métodos para llamar a las diferentes pantallas
+	// Comprobaciones de ajustes por si algo había sido seleccionado la anterior vez que se jugó al juego
+	private boolean checkFullScreen;
+	private boolean checkMusicSound;
+	Preferences preferences;
+	Graphics.DisplayMode displayMode;
 
+	// Métodos para llamar a las diferentes pantallas
 	public void setTitleScreen() {
 		titleScreen = new TitleScreen(this);
 		setScreen(titleScreen);
@@ -74,6 +84,29 @@ public class ByeBee extends Game {
 
 	@Override
 	public void create () {
+		preferences = Gdx.app.getPreferences("byebee");
+		displayMode = Gdx.graphics.getDisplayMode();
+
+		checkFullScreen = preferences.getBoolean("fullscreen", false);
+		checkMusicSound = preferences.getBoolean("musicSound", true);
+
+		// Comprueba si al iniciar el juego la opción de pantalla completa estaba activada o desactivada y actúa de forma correspondiente
+		if (checkFullScreen) {
+			Gdx.graphics.setUndecorated(true);
+			Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+		} else {
+			Gdx.graphics.setUndecorated(false);
+			Gdx.graphics.setWindowedMode(ByeBee.WIDTH, ByeBee.HEIGHT);
+		}
+
+		//if (checkMusicSound) {
+			// La música de menús se coloca en esta clase para evitar que al navegar entre menús se creen nuevas instancias de la misma canción y suenen todas de golpe
+			bgmMenus = Gdx.audio.newMusic(Gdx.files.internal("bgm_menus.mp3"));
+			bgmMenus.setLooping(true);
+			bgmMenus.setVolume(1);
+			bgmMenus.play();
+		//}
+
 		setTitleScreen();
 	}
 
@@ -83,12 +116,28 @@ public class ByeBee extends Game {
 	}
 
 	@Override
+	public void show() {
+
+	}
+
+	@Override
+	public void render(float v) {
+
+	}
+
+	@Override
 	public void resize(int width, int height) {
 		titleScreen.resize(width, height);
 	}
 
 	@Override
+	public void hide() {
+
+	}
+
+	@Override
 	public void dispose () {
-		//titleScreen.dispose();
+		bgmMenus.dispose();
+		this.dispose();
 	}
 }

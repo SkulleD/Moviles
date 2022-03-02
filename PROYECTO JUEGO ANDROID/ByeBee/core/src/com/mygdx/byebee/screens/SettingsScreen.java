@@ -31,6 +31,7 @@ public class SettingsScreen implements Screen {
     Graphics.DisplayMode displayMode;
     private boolean godmode;
     private boolean fullscreen;
+    private boolean musicSound;
 
     public SettingsScreen(ByeBee byebee) {
         this.byebee = byebee;
@@ -40,6 +41,7 @@ public class SettingsScreen implements Screen {
         preferences = Gdx.app.getPreferences("byebee");
         godmode = preferences.getBoolean("invencible", false);
         fullscreen = preferences.getBoolean("fullscreen", false);
+        musicSound = preferences.getBoolean("musicSound", true);
 
         bgSettings = new Texture("beeSettings_vacio.png");
         btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
@@ -86,7 +88,7 @@ public class SettingsScreen implements Screen {
 
             // Activa la invencibilidad de la abeja contra los enemigos
             if (btnGodModeON.getBoton().contains(touched)) {
-                System.out.println("God Mode ON");
+                System.out.println("GOD MODE ON");
                 godmode = true;
                 preferences.putBoolean("invencible", godmode);
                 preferences.flush();
@@ -94,7 +96,7 @@ public class SettingsScreen implements Screen {
 
             // Desactiva la invencibilidad de la abeja contra los enemigos
             if (btnGodModeOFF.getBoton().contains(touched)) {
-                System.out.println("God Mode OFF");
+                System.out.println("GOD MODE OFF");
                 godmode = false;
                 preferences.putBoolean("invencible", godmode);
                 preferences.flush();
@@ -103,13 +105,19 @@ public class SettingsScreen implements Screen {
             // Activa la música y los sonidos del juego
             if (btnMusicON.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS ON");
-
+                //byebee.bgmMenus.play();
+                musicSound = true;
+                preferences.putBoolean("musicSound", musicSound);
+                preferences.flush();
             }
 
             // Desactiva la música y los sonidos del juego
             if (btnMusicOFF.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS OFF");
-
+                //byebee.bgmMenus.stop();
+                musicSound = false;
+                preferences.putBoolean("musicSound", musicSound);
+                preferences.flush();
             }
 
             // El juego se pone en pantalla completa (en escritorio, porque en móvil ya lo está)

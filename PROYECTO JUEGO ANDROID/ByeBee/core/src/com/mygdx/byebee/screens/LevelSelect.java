@@ -2,6 +2,7 @@ package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,6 +35,7 @@ public class LevelSelect implements Screen {
         btnLvl2 = new Options(ByeBee.WIDTH / 12 + btnLvl1.getWidth(), ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles2.png"));
         btnLvl3 = new Options(ByeBee.WIDTH / 9 + btnLvl2.getWidth() * 2, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles3.png"));
         btnLvl4 = new Options(ByeBee.WIDTH / 3 + btnLvl3.getWidth() * 2, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 5, ByeBee.HEIGHT / 2, new Texture("btn_Niveles4.png"));
+
         spriteBatch = new SpriteBatch();
     }
 
@@ -63,16 +65,20 @@ public class LevelSelect implements Screen {
 
             if (btnLvl1.getBoton().contains(touched)) {
                 System.out.println("LEVEL 1 SELECTED");
+                byebee.bgmMenus.stop();
                 byebee.setLevel1();
             }
 
             if (btnLvl2.getBoton().contains(touched)) {
                 System.out.println("LEVEL 2 SELECTED");
+                byebee.bgmMenus.stop();
+
                 byebee.setLevel2();
             }
 
             if (btnLvl3.getBoton().contains(touched)) {
                 System.out.println("LEVEL 3 SELECTED");
+                byebee.bgmMenus.stop();
                 byebee.setLevel3();
             }
 
@@ -106,6 +112,7 @@ public class LevelSelect implements Screen {
 
     @Override
     public void dispose() {
+        spriteBatch.dispose();
         this.dispose();
     }
 }

@@ -2,6 +2,7 @@ package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,6 +27,7 @@ public class Level3 implements Screen {
     private SpriteBatch spriteBatch;
     private BitmapFont texto;
     private ByeBee byebee;
+    private Music bgmLevel3;
 
     private Texture[] backgrounds;
 
@@ -69,6 +71,11 @@ public class Level3 implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+
+        bgmLevel3 = Gdx.audio.newMusic(Gdx.files.internal("bgm_level3.mp3"));
+        bgmLevel3.setLooping(true);
+        bgmLevel3.setVolume(1);
+        bgmLevel3.play();
 
         backgrounds = new Texture[3];
         backgrounds[0] = new Texture("lvl3_background2.png");
@@ -279,12 +286,14 @@ public class Level3 implements Screen {
 
             if (btnMenu.getBoton().contains(touched) && optionsMenu) { // VOLVER AL MENÚ DE SELECCIÓN DE NIVEL
                 System.out.println("BACK TO MENU");
-                byebee.setLevelSelect();
+                bgmLevel3.stop();
+                byebee.setTitleScreen();
             }
 
             if (btnContinue.getBoton().contains(touched) && optionsMenu) { // COMPLETAR NIVEL Y VOLVER A MENÚ DE SELECCIÓN DE NIVEL
                 System.out.println("LEVEL COMPLETED");
-                byebee.setLevelSelect();
+                bgmLevel3.stop();
+                byebee.setTitleScreen();
             }
         }
     }
@@ -312,6 +321,8 @@ public class Level3 implements Screen {
 
     @Override
     public void dispose() {
+        texto.dispose();
         spriteBatch.dispose();
+        bgmLevel3.dispose();
     }
 }
