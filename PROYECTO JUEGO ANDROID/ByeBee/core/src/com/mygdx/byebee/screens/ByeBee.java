@@ -29,6 +29,7 @@ public class ByeBee extends Game implements Screen {
 	private Level1 level1;
 	private Level2 level2;
 	private Level3 level3;
+	private Level4 level4;
 
 	// Comprobaciones de ajustes por si algo había sido seleccionado la anterior vez que se jugó al juego
 	private boolean checkFullScreen;
@@ -77,9 +78,14 @@ public class ByeBee extends Game implements Screen {
 		setScreen(level2);
 	}
 
-	public void setLevel3() { // Pantalla de nivel 2
+	public void setLevel3() { // Pantalla de nivel 3
 		level3 = new Level3(this);
 		setScreen(level3);
+	}
+
+	public void setLevel4() { // Pantalla de nivel 4
+		level4 = new Level4(this);
+		setScreen(level4);
 	}
 
 	@Override
