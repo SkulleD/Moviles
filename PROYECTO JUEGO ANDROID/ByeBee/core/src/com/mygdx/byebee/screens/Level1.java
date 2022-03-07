@@ -204,14 +204,14 @@ public class Level1 implements Screen {
 
         if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    250, 200, new Texture("bird.png"), 10, false, -400));
+                    ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bird.png"), 10, false, -400));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    250, 200, new Texture("bee_lancer.png"), 5, false, -400));
+                    ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bee_lancer.png"), 5, false, -400));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }

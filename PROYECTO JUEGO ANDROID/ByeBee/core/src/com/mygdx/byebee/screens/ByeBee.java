@@ -97,12 +97,16 @@ public class ByeBee extends Game implements Screen {
 		checkMusicSound = preferences.getBoolean("musicSound", true);
 
 		// Comprueba si al iniciar el juego la opción de pantalla completa estaba activada o desactivada y actúa de forma correspondiente
-		if (checkFullScreen) {
-			Gdx.graphics.setUndecorated(true);
-			Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
-		} else {
-			Gdx.graphics.setUndecorated(false);
-			Gdx.graphics.setWindowedMode(ByeBee.WIDTH, ByeBee.HEIGHT);
+		switch(Gdx.app.getType()) {
+			case Desktop:
+				if (checkFullScreen) {
+					Gdx.graphics.setUndecorated(true);
+					Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+				} else {
+					Gdx.graphics.setUndecorated(false);
+					Gdx.graphics.setWindowedMode(ByeBee.WIDTH, ByeBee.HEIGHT);
+				}
+				break;
 		}
 
 		//if (checkMusicSound) {
@@ -144,6 +148,5 @@ public class ByeBee extends Game implements Screen {
 	@Override
 	public void dispose () {
 		bgmMenus.dispose();
-		this.dispose();
 	}
 }

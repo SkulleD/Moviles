@@ -37,7 +37,7 @@ public class Level3 implements Screen {
 
     private float timeBetweenSpawnsBird = 7f;
     private float timeBetweenSpawnsBeeLancer = 3f;
-    private float timeBetweenSpawnsMeta = 10f;
+    private float timeBetweenSpawnsMeta = 70f;
     private float birdSpawnTimer = 0;
     private float beeLancerSpawnTimer = 0;
     private float metaSpawnTimer = 0;
@@ -202,20 +202,20 @@ public class Level3 implements Screen {
 
         if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    250, 200, new Texture("bird.png"), 10, false, -400));
+                    ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bird.png"), 10, false, -400));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    250, 200, new Texture("bee_lancer.png"), 5, false, -400));
+                    ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bee_lancer.png"), 5, false, -400));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }
 
         if (metaSpawnTimer > timeBetweenSpawnsMeta) { // META FINAL DE NIVEL
-            enemyList.add(new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT * 2, new Texture("beeMeta.png"), 100, true, -400));
+            enemyList.add(new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("beeMeta.png"), 100, true, -400));
 
             metaSpawnTimer -= timeBetweenSpawnsMeta;
         }

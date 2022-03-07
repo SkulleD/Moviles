@@ -120,28 +120,31 @@ public class SettingsScreen implements Screen {
                 preferences.flush();
             }
 
-            // El juego se pone en pantalla completa (en escritorio, porque en móvil ya lo está)
-            if (btnFullScreenON.getBoton().contains(touched)) {
-                if (!fullscreen) {
-                    System.out.println("FULLSCREEN ON");
-                    fullscreen = true;
-                    Gdx.graphics.setUndecorated(true);
-                    Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
-                    preferences.putBoolean("fullscreen", fullscreen);
-                    preferences.flush();
-                }
-            }
+            switch(Gdx.app.getType()) { // Fullscreen y modo ventana SOLO funcionan en escritorio y no en Android
+                case Desktop:
+                    // El juego se pone en pantalla completa (en escritorio, porque en móvil ya lo está)
+                    if (btnFullScreenON.getBoton().contains(touched)) {
+                        if (!fullscreen) {
+                            System.out.println("FULLSCREEN ON");
+                            fullscreen = true;
+                            Gdx.graphics.setUndecorated(true);
+                            Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
+                            preferences.putBoolean("fullscreen", fullscreen);
+                            preferences.flush();
+                        }
+                    }
 
-            // El juego se pone en modo ventana (en escritorio, porque en móvil solo está en pantalla completa)
-            if (btnFullScreenOFF.getBoton().contains(touched)) {
-                if (fullscreen) {
-                    System.out.println("FULLSCREEN OFF");
-                    fullscreen = false;
-                    Gdx.graphics.setUndecorated(false);
-                    Gdx.graphics.setWindowedMode(ByeBee.WIDTH, ByeBee.HEIGHT);
-                    preferences.putBoolean("fullscreen", fullscreen);
-                    preferences.flush();
-                }
+                    // El juego se pone en modo ventana (en escritorio, porque en móvil solo está en pantalla completa)
+                    if (btnFullScreenOFF.getBoton().contains(touched)) {
+                        if (fullscreen) {
+                            System.out.println("FULLSCREEN OFF");
+                            fullscreen = false;
+                            Gdx.graphics.setUndecorated(false);
+                            Gdx.graphics.setWindowedMode(ByeBee.WIDTH, ByeBee.HEIGHT);
+                            preferences.putBoolean("fullscreen", fullscreen);
+                            preferences.flush();
+                        }
+                    }
             }
         }
     }

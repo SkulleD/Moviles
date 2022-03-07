@@ -29,7 +29,7 @@ public class InfoScreen implements Screen {
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
 
         bgInfo = new Texture("beeInfo_vacio.png");
-        bgInfo2 = new Texture("beeInfo2.png");
+        bgInfo2 = new Texture("beeInfo2_vacio.png");
         btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
         btnRight = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_derecha.png"));
         btnLeft = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_izquierda.png"));
