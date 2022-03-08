@@ -18,12 +18,14 @@ public class Bee extends Character {
     private static int GRAVITY = -4;
     private boolean finJuego;
     private boolean invencible;
+    private boolean hasShield;
     Preferences preferences;
 
     public Bee(float posX, float posY, float width, float height, Texture texture, int health) {
         super(posX, posY, width, height, texture, health);
         this.speed = new Vector2(0, 0);
         this.finJuego = false;
+        this.hasShield = false;
 
         preferences = Gdx.app.getPreferences("byebee");
         this.invencible = preferences.getBoolean("invencible", false);
@@ -97,5 +99,13 @@ public class Bee extends Character {
         this.invencible = invencible;
         preferences.putBoolean("invencible", this.invencible);
         preferences.flush();
+    }
+
+    public boolean isHasShield() {
+        return hasShield;
+    }
+
+    public void setHasShield(boolean hasShield) {
+        this.hasShield = hasShield;
     }
 }
