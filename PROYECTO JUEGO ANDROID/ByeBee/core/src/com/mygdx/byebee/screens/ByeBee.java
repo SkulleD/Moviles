@@ -109,13 +109,13 @@ public class ByeBee extends Game implements Screen {
 				break;
 		}
 
-		//if (checkMusicSound) {
+		if (checkMusicSound) {
 			// La música de menús se coloca en esta clase para evitar que al navegar entre menús se creen nuevas instancias de la misma canción y suenen todas de golpe
 			bgmMenus = Gdx.audio.newMusic(Gdx.files.internal("bgm_menus.mp3"));
 			bgmMenus.setLooping(true);
 			bgmMenus.setVolume(1);
 			bgmMenus.play();
-		//}
+		}
 
 		setTitleScreen();
 	}

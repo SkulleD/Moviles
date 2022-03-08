@@ -37,7 +37,7 @@ public class TitleScreen implements Screen {
         checkMusicSound = preferences.getBoolean("musicSound", true);
 
         // && checkMusicSound
-        if (!byebee.bgmMenus.isPlaying()) { // Al salir de un nivel deja de sonar su música y vuelve a sonar la de los menús
+        if (!byebee.bgmMenus.isPlaying() && !checkMusicSound) { // Al salir de un nivel deja de sonar su música y vuelve a sonar la de los menús
             byebee.bgmMenus.play();
         }
 

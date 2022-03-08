@@ -105,7 +105,7 @@ public class SettingsScreen implements Screen {
             // Activa la música y los sonidos del juego
             if (btnMusicON.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS ON");
-                //byebee.bgmMenus.play();
+                byebee.bgmMenus.play();
                 musicSound = true;
                 preferences.putBoolean("musicSound", musicSound);
                 preferences.flush();
@@ -114,7 +114,7 @@ public class SettingsScreen implements Screen {
             // Desactiva la música y los sonidos del juego
             if (btnMusicOFF.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS OFF");
-                //byebee.bgmMenus.stop();
+                byebee.bgmMenus.stop();
                 musicSound = false;
                 preferences.putBoolean("musicSound", musicSound);
                 preferences.flush();
