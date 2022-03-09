@@ -13,22 +13,76 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.byebee.characters.Options;
 
+/**
+ * Es la primera pantalla que ven los jugadores.
+ * Sirve para acceder al resto de pantallas del juego: Selección de Nivel, Informacióm, Créditos, Ajustes y Puntuaciones.
+ */
 public class TitleScreen implements Screen {
+    /**
+     * Cámara que se usa para proyección ortográfica
+     */
     private Camera camera;
+
+    /**
+     * Utiliza la cámara para determinar cómo las coordenadas en pantalla están mapeadas desde un punto a otro de la pantalla
+     */
     private Viewport viewport;
+
+    /**
+     * Se usa para dibujar los recursos gráficos en pantalla
+     */
     private SpriteBatch spriteBatch;
+
+    /**
+     * Recurso gráfico que se muestra de fondo de la pantalla
+     */
     private Texture bgTitle;
+
+    /**
+     * Objeto que se utiliza para acceder a las demás pantallas usando los métodos correspondientes de la clase base
+     */
     private ByeBee byebee;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
     private Preferences preferences;
+
+    /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
     private boolean checkMusicSound;
 
     //Se crean los botones de la pantalla del título
+    /**
+     * Botón para acceder a la pantalla de información
+     */
     private Options optionsInfo;
+
+    /**
+     * Botón para acceder a la pantalla de créditos
+     */
     private Options optionsCredits;
+
+    /**
+     * Botón para acceder a la pantalla de puntuaciones
+     */
     private Options optionsRecords;
+
+    /**
+     * Botón para acceder a la pantalla de ajustes
+     */
     private Options optionsSettings;
+
+    /**
+     * Botón para acceder a la pantalla de selección de nivel
+     */
     private Options optionsPlay;
 
+    /**
+     * Constructor que inicializa los campos necesario de esta pantalla
+     * @param byebee Sirve para acceder a los métodos de la clase base ByeBee
+     */
     public TitleScreen(ByeBee byebee) {
         this.byebee = byebee;
         camera = new OrthographicCamera();
@@ -36,7 +90,6 @@ public class TitleScreen implements Screen {
         preferences = Gdx.app.getPreferences("byebee");
         checkMusicSound = preferences.getBoolean("musicSound", true);
 
-        // && checkMusicSound
         if (!byebee.bgmMenus.isPlaying() && !checkMusicSound) { // Al salir de un nivel deja de sonar su música y vuelve a sonar la de los menús
             byebee.bgmMenus.play();
         }
@@ -56,13 +109,20 @@ public class TitleScreen implements Screen {
         spriteBatch = new SpriteBatch();
     }
 
+    /**
+     * Método al que se llama cuando esta pantalla se convierte en la actual.
+     */
     @Override
     public void show() {
 
     }
 
+    /**
+     * Método al que se llama cada vez que la pantalla es renderizada.
+     * @param deltaTime El tiempo en segundos desde el último renderizado.
+     */
     @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
         spriteBatch.begin();
         spriteBatch.draw(bgTitle, 0, 0, ByeBee.WIDTH, ByeBee.HEIGHT);
         spriteBatch.draw(optionsInfo.getTexture(),  optionsInfo.getPosX(), optionsInfo.getPosY(),  optionsInfo.getWidth(), optionsInfo.getHeight());
@@ -75,12 +135,14 @@ public class TitleScreen implements Screen {
         spriteBatch.end();
     }
 
+    /**
+     * Método que detecta qué botón ha sido pulsado y acceder a la pantalla correspondiente
+     */
     public void detectTouch() {
         Vector2 touched; // Guarda las coordenadas para saber en qué parte de la pantalla se toca
 
         if (Gdx.input.justTouched()) {
             touched = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-            System.out.println("AAAAAAAA");
 
             if (optionsPlay.getBoton().contains(touched)) { // BOTÓN JUGAR
                 System.out.println("JUGAR");
@@ -109,27 +171,44 @@ public class TitleScreen implements Screen {
         }
     }
 
+    /**
+     * Método al que se llama cuando se redimensiona la pantalla.
+     * @param width Ancho de la pantalla.
+     * @param height Alto de la pantalla.
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         spriteBatch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * Método al que se llama cuando la pantalla es pausada
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Método al que se llama cuando la pantalla se reanuda después de estar pausada
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Método al que se llama cuando esta pantalla ya no es la pantalla actual.
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método al que se llama cuando se destruye la pantalla.
+     */
     @Override
     public void dispose() {
         spriteBatch.dispose();
