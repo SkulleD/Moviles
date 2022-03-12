@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,28 +19,34 @@ import com.mygdx.byebee.characters.Options;
  * Sirve para acceder al resto de pantallas del juego: Selección de Nivel, Informacióm, Créditos, Ajustes y Puntuaciones.
  */
 public class TitleScreen implements Screen {
+
     /**
-     * Cámara que se usa para proyección ortográfica
+     * Cámara que se usa para proyección ortográfica.
      */
     private Camera camera;
 
     /**
-     * Utiliza la cámara para determinar cómo las coordenadas en pantalla están mapeadas desde un punto a otro de la pantalla
+     * Utiliza la cámara para determinar cómo las coordenadas en pantalla están mapeadas desde un punto a otro de la pantalla.
      */
     private Viewport viewport;
 
     /**
-     * Se usa para dibujar los recursos gráficos en pantalla
+     * Se usa para dibujar los recursos gráficos en pantalla.
      */
     private SpriteBatch spriteBatch;
 
     /**
-     * Recurso gráfico que se muestra de fondo de la pantalla
+     * Recurso gráfico que se muestra de fondo de la pantalla.
      */
     private Texture bgTitle;
 
     /**
-     * Objeto que se utiliza para acceder a las demás pantallas usando los métodos correspondientes de la clase base
+     * Recurso sonoro que emite un sonido cada vez que se pulsa una opción.
+     */
+    private Sound soundBtnClick;
+
+    /**
+     * Objeto que se utiliza para acceder a las demás pantallas usando los métodos correspondientes de la clase base.
      */
     private ByeBee byebee;
 
@@ -55,33 +62,33 @@ public class TitleScreen implements Screen {
 
     //Se crean los botones de la pantalla del título
     /**
-     * Botón para acceder a la pantalla de información
+     * Botón para acceder a la pantalla de información.
      */
     private Options optionsInfo;
 
     /**
-     * Botón para acceder a la pantalla de créditos
+     * Botón para acceder a la pantalla de créditos.
      */
     private Options optionsCredits;
 
     /**
-     * Botón para acceder a la pantalla de puntuaciones
+     * Botón para acceder a la pantalla de puntuaciones.
      */
     private Options optionsRecords;
 
     /**
-     * Botón para acceder a la pantalla de ajustes
+     * Botón para acceder a la pantalla de ajustes.
      */
     private Options optionsSettings;
 
     /**
-     * Botón para acceder a la pantalla de selección de nivel
+     * Botón para acceder a la pantalla de selección de nivel.
      */
     private Options optionsPlay;
 
     /**
-     * Constructor que inicializa los campos necesario de esta pantalla
-     * @param byebee Sirve para acceder a los métodos de la clase base ByeBee
+     * Constructor que inicializa los campos necesario de esta pantalla.
+     * @param byebee Sirve para acceder a los métodos de la clase base ByeBee.
      */
     public TitleScreen(ByeBee byebee) {
         this.byebee = byebee;
@@ -93,6 +100,9 @@ public class TitleScreen implements Screen {
         if (!byebee.bgmMenus.isPlaying() && !checkMusicSound) { // Al salir de un nivel deja de sonar su música y vuelve a sonar la de los menús
             byebee.bgmMenus.play();
         }
+
+        soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
+        soundBtnClick.setVolume(7, 1);
 
         bgTitle = new Texture("beeTitleFinal.png");
         optionsInfo = new Options(0, 0, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_info.png"));
@@ -136,7 +146,7 @@ public class TitleScreen implements Screen {
     }
 
     /**
-     * Método que detecta qué botón ha sido pulsado y acceder a la pantalla correspondiente
+     * Método que detecta qué botón ha sido pulsado y acceder a la pantalla correspondiente.
      */
     public void detectTouch() {
         Vector2 touched; // Guarda las coordenadas para saber en qué parte de la pantalla se toca
@@ -146,26 +156,31 @@ public class TitleScreen implements Screen {
 
             if (optionsPlay.getBoton().contains(touched)) { // BOTÓN JUGAR
                 System.out.println("JUGAR");
+                soundBtnClick.play();
                 byebee.setLevelSelect();
             }
 
             if (optionsInfo.getBoton().contains(touched)) { // BOTÓN INFO
                 System.out.println("INFO");
+                soundBtnClick.play();
                 byebee.setInfoScreen();
             }
 
             if (optionsCredits.getBoton().contains(touched)) { // BOTÓN CRÉDITOS
                 System.out.println("CREDITS");
+                soundBtnClick.play();
                 byebee.setCreditsScreen();
             }
 
             if (optionsSettings.getBoton().contains(touched)) { // BOTÓN AJUSTES
                 System.out.println("SETTINGS");
+                soundBtnClick.play();
                 byebee.setSettingsScreen();
             }
 
             if (optionsRecords.getBoton().contains(touched)) { // BOTÓN PUNTUACIONES
                 System.out.println("RECORDS");
+                soundBtnClick.play();
                 byebee.setScoreScreen();
             }
         }
@@ -183,7 +198,7 @@ public class TitleScreen implements Screen {
     }
 
     /**
-     * Método al que se llama cuando la pantalla es pausada
+     * Método al que se llama cuando la pantalla es pausada.
      */
     @Override
     public void pause() {
@@ -191,7 +206,7 @@ public class TitleScreen implements Screen {
     }
 
     /**
-     * Método al que se llama cuando la pantalla se reanuda después de estar pausada
+     * Método al que se llama cuando la pantalla se reanuda después de estar pausada.
      */
     @Override
     public void resume() {

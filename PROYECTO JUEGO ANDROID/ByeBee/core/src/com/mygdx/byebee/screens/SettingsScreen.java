@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,25 +15,105 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.byebee.characters.Bee;
 import com.mygdx.byebee.characters.Options;
 
+/**
+ * Esta pantalla sirve para activar/desactivar varios parámetros: invencibilidad, música/sonidos y pantalla completa.
+ */
 public class SettingsScreen implements Screen {
+
+    /**
+     * Cámara que se usa para proyección ortográfica.
+     */
     private Camera camera;
+
+    /**
+     * Utiliza la cámara para determinar cómo las coordenadas en pantalla están mapeadas desde un punto a otro de la pantalla.
+     */
     private Viewport viewport;
+
+    /**
+     * Se usa para dibujar los recursos gráficos en pantalla.
+     */
     private SpriteBatch spriteBatch;
+
+    /**
+     * Objeto que se utiliza para acceder a las demás pantallas usando los métodos correspondientes de la clase base.
+     */
     private ByeBee byebee;
+
+    /**
+     * Recurso gráfico que se muestra de fondo de la pantalla.
+     */
     private Texture bgSettings;
+
+    /**
+     * Recurso sonoro que emite un sonido cada vez que se pulsa una opción.
+     */
+    private Sound soundBtnClick;
+
+    /**
+     * Botón para volver a la pantalla anterior.
+     */
     private Options btnBack;
+
+    /**
+     * Botón para activar la invencibilidad de la abeja.
+     */
     private Options btnGodModeON;
+
+    /**
+     * Botón para desactivar la invencibilidad de la abeja.
+     */
     private Options btnGodModeOFF;
+
+    /**
+     * Botón para activar la música y los sonidos.
+     */
     private Options btnMusicON;
+
+    /**
+     * Botón para desactivar la música y los sonidos.
+     */
     private Options btnMusicOFF;
+
+    /**
+     * Botón para activar la pantalla completa (solo en escritorio).
+     */
     private Options btnFullScreenON;
+
+    /**
+     * Botón para desactivar la pantalla completa (solo en escritorio).
+     */
     private Options btnFullScreenOFF;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
     private Preferences preferences;
+
+    /**
+     * Se usa para poder poner y quitar la pantalla completa del juego (solo en escritorio).
+     */
     Graphics.DisplayMode displayMode;
+
+    /**
+     * Variable que sirve para guardar el valor persistente de la invencibilidad
+     */
     private boolean godmode;
+
+    /**
+     * Variable que sirve para guardar el valor persistente de la pantalla completa
+     */
     private boolean fullscreen;
+
+    /**
+     * Variable que sirve para guardar el valor persistente de la música y sonidos
+     */
     private boolean musicSound;
 
+    /**
+     * Constructor que inicializa los campos necesario de esta pantalla.
+     * @param byebee Sirve para acceder a los métodos de la clase base ByeBee.
+     */
     public SettingsScreen(ByeBee byebee) {
         this.byebee = byebee;
         camera = new OrthographicCamera();
@@ -42,6 +123,9 @@ public class SettingsScreen implements Screen {
         godmode = preferences.getBoolean("invencible", false);
         fullscreen = preferences.getBoolean("fullscreen", false);
         musicSound = preferences.getBoolean("musicSound", true);
+
+        soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
+        soundBtnClick.setVolume(7, 1);
 
         bgSettings = new Texture("beeSettings_vacio.png");
         btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
@@ -55,13 +139,20 @@ public class SettingsScreen implements Screen {
         spriteBatch = new SpriteBatch();
     }
 
+    /**
+     * Método al que se llama cuando esta pantalla se convierte en la actual.
+     */
     @Override
     public void show() {
 
     }
 
+    /**
+     * Método al que se llama cada vez que la pantalla es renderizada.
+     * @param deltaTime El tiempo en segundos desde el último renderizado.
+     */
     @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
         spriteBatch.begin();
         spriteBatch.draw(bgSettings, 0, 0, ByeBee.WIDTH, byebee.HEIGHT);
         spriteBatch.draw(btnBack.getTexture(), btnBack.getPosX(), btnBack.getPosY(), btnBack.getWidth(), btnBack.getHeight());
@@ -75,6 +166,9 @@ public class SettingsScreen implements Screen {
         spriteBatch.end();
     }
 
+    /**
+     * Método que detecta qué botón ha sido pulsado y acceder a la pantalla correspondiente.
+     */
     public void detectTouch() {
         Vector2 touched; // Guarda las coordenadas para saber en qué parte de la pantalla se toca
 
@@ -83,12 +177,14 @@ public class SettingsScreen implements Screen {
 
             if (btnBack.getBoton().contains(touched)) {
                 System.out.println("BACK");
+                soundBtnClick.play();
                 byebee.setTitleScreen();
             }
 
             // Activa la invencibilidad de la abeja contra los enemigos
             if (btnGodModeON.getBoton().contains(touched)) {
                 System.out.println("GOD MODE ON");
+                soundBtnClick.play();
                 godmode = true;
                 preferences.putBoolean("invencible", godmode);
                 preferences.flush();
@@ -97,6 +193,7 @@ public class SettingsScreen implements Screen {
             // Desactiva la invencibilidad de la abeja contra los enemigos
             if (btnGodModeOFF.getBoton().contains(touched)) {
                 System.out.println("GOD MODE OFF");
+                soundBtnClick.play();
                 godmode = false;
                 preferences.putBoolean("invencible", godmode);
                 preferences.flush();
@@ -105,6 +202,7 @@ public class SettingsScreen implements Screen {
             // Activa la música y los sonidos del juego
             if (btnMusicON.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS ON");
+                soundBtnClick.play();
                 byebee.bgmMenus.play();
                 musicSound = true;
                 preferences.putBoolean("musicSound", musicSound);
@@ -114,6 +212,7 @@ public class SettingsScreen implements Screen {
             // Desactiva la música y los sonidos del juego
             if (btnMusicOFF.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS OFF");
+                soundBtnClick.play();
                 byebee.bgmMenus.stop();
                 musicSound = false;
                 preferences.putBoolean("musicSound", musicSound);
@@ -126,6 +225,7 @@ public class SettingsScreen implements Screen {
                     if (btnFullScreenON.getBoton().contains(touched)) {
                         if (!fullscreen) {
                             System.out.println("FULLSCREEN ON");
+                            soundBtnClick.play();
                             fullscreen = true;
                             Gdx.graphics.setUndecorated(true);
                             Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
@@ -138,6 +238,7 @@ public class SettingsScreen implements Screen {
                     if (btnFullScreenOFF.getBoton().contains(touched)) {
                         if (fullscreen) {
                             System.out.println("FULLSCREEN OFF");
+                            soundBtnClick.play();
                             fullscreen = false;
                             Gdx.graphics.setUndecorated(false);
                             Gdx.graphics.setWindowedMode(ByeBee.WIDTH, ByeBee.HEIGHT);
@@ -149,29 +250,47 @@ public class SettingsScreen implements Screen {
         }
     }
 
+    /**
+     * Método al que se llama cuando se redimensiona la pantalla.
+     * @param width Ancho de la pantalla.
+     * @param height Alto de la pantalla.
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         spriteBatch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * Método al que se llama cuando la pantalla es pausada.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Método al que se llama cuando la pantalla se reanuda después de estar pausada.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Método al que se llama cuando esta pantalla ya no es la pantalla actual.
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Método al que se llama cuando se destruye la pantalla.
+     */
     @Override
     public void dispose() {
+        spriteBatch.dispose();
         this.dispose();
     }
 }
