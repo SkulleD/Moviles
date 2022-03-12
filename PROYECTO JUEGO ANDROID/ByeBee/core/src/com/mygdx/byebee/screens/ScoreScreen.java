@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,6 +19,8 @@ public class ScoreScreen implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
+    private FreeTypeFontGenerator fontGenerator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
     private BitmapFont texto;
     private ByeBee byebee;
     private Texture bgScore;
@@ -27,7 +30,6 @@ public class ScoreScreen implements Screen {
     private Score puntuacion3;
     private Score puntuacion4;
 
-
     public ScoreScreen(ByeBee byebee) {
         this.byebee = byebee;
         camera = new OrthographicCamera();
@@ -36,10 +38,14 @@ public class ScoreScreen implements Screen {
         bgScore = new Texture("BeePuntuaciones_vacio.png");
         btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
 
-        texto = new BitmapFont();
+        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PalatinoLinotype.ttf"));
+        fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.color = Color.ORANGE;
+        fontParameter.borderColor = Color.BLACK;
+        fontParameter.borderWidth = 1;
+        texto = fontGenerator.generateFont(fontParameter);
         texto.getData().setScale(3);
         texto.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        texto.setColor(Color.YELLOW);
 
         puntuacion4 = new Score(texto,ByeBee.WIDTH - btnBack.getWidth() * 2, ByeBee.HEIGHT / 3);
         puntuacion3 = new Score(texto,ByeBee.WIDTH - btnBack.getWidth() * 2, puntuacion4.getPosY() + btnBack.getHeight() + btnBack.getHeight() / 14);

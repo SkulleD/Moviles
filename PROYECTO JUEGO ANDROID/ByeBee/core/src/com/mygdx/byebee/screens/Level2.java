@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -25,6 +26,8 @@ public class Level2 implements Screen {
     private Camera camera;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
+    private FreeTypeFontGenerator fontGenerator;
+    private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
     private BitmapFont texto;
     private ByeBee byebee;
     private Music bgmLevel2;
@@ -108,10 +111,14 @@ public class Level2 implements Screen {
         levelCompleted = new Texture("beeLevelFinished_vacio.png");
         btnContinue = new Options(ByeBee.WIDTH / 8 + btnRetry.getWidth(), ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnContinuar.png"));
 
-        texto = new BitmapFont();
+        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("PalatinoLinotype.ttf"));
+        fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.color = Color.ORANGE;
+        fontParameter.borderColor = Color.BLACK;
+        fontParameter.borderWidth = 1;
+        texto = fontGenerator.generateFont(fontParameter);
         texto.getData().setScale(3);
         texto.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        texto.setColor(Color.YELLOW);
 
         puntuacion = new Score(texto, health.getPosX() + health.getWidth(), ByeBee.HEIGHT - health.getHeight() / 2);
         spriteBatch = new SpriteBatch();
