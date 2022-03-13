@@ -266,7 +266,7 @@ public class Level4 implements Screen {
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                 170, 170, new Texture("bee_lancer.png"), 4, false, false, -400);
 
-        escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_MusicaON.png"), 1, false, true, -400);
+        escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("spriteShield1.png"), 1, false, true, -400);
 
         btnRetry = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT / 4, Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 5, new Texture("btnReintentar.png"));
         levelCompleted = new Texture("beeLevelFinished_vacio.png");
@@ -311,7 +311,7 @@ public class Level4 implements Screen {
         spriteBatch.draw(bee.getBeeTexture(), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
 
         if (bee.isHasShield()) { // Si la abeja tiene actualmente un escudo se le dibuja encima
-            spriteBatch.draw(new Texture("btn_MusicaON.png"), bee.getPosX(), bee.getPosY(), escudo.getWidth(), escudo.getHeight());
+            spriteBatch.draw(escudo.getEnemyTexture(), bee.getPosX(), bee.getPosY(), escudo.getWidth(), escudo.getHeight());
         }
 
         spawnEntities(deltaTime);
@@ -323,8 +323,10 @@ public class Level4 implements Screen {
                 bee.setFinJuego(true);
             }
 
-            enemyList.get(i).move();
-            enemyList.get(i).update(deltaTime);
+            if (!optionsMenu) {
+                enemyList.get(i).move();
+                enemyList.get(i).update(deltaTime);
+            }
 
             spriteBatch.draw(enemyList.get(i).getEnemyTexture(), enemyList.get(i).getPosX(), enemyList.get(i).getPosY(), enemyList.get(i).getWidth(), enemyList.get(i).getHeight());
             // Detecta colisiones entre la abeja y los enemigos
@@ -425,7 +427,7 @@ public class Level4 implements Screen {
         }
 
         if (escudoSpawnTimer > timeBetweenSpawnsEscudo) { // ITEM ESCUDO
-            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_MusicaON.png"), 1, false, true, -400));
+            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("spriteShield.png"), 1, false, true, -400));
 
             escudoSpawnTimer -= timeBetweenSpawnsEscudo;
         }

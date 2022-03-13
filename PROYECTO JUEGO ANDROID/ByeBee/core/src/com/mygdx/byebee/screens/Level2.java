@@ -288,13 +288,13 @@ public class Level2 implements Screen {
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
                 150, 150, new Texture("spriteBee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("bird.png"), 10, false, false, -400);
+                170, 170, new Texture("spriteBird.png"), 10, false, false, -400);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                 170, 170, new Texture("spriteBeeLancer.png"), 4, false, false, -400);
 
         meta = new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("spriteMeta.png"), 100, true, false, -400);
 
-        escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_MusicaON.png"), 1, false, true, -400);
+        escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("spriteShield.png"), 1, false, true, -400);
 
         gameOver = new Texture("beeGameOver_vacio.png");
         btnRetry = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT / 4, ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("btnReintentar.png"));
@@ -341,7 +341,7 @@ public class Level2 implements Screen {
         spriteBatch.draw(bee.getBeeTexture(), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
 
         if (bee.isHasShield()) { // Si la abeja tiene actualmente un escudo se le dibuja encima
-            spriteBatch.draw(new Texture("btn_MusicaON.png"), bee.getPosX(), bee.getPosY(), escudo.getWidth(), escudo.getHeight());
+            spriteBatch.draw(escudo.getEnemyTexture(), bee.getPosX(), bee.getPosY(), escudo.getWidth(), escudo.getHeight());
         }
 
         spawnEntities(deltaTime);
@@ -353,8 +353,10 @@ public class Level2 implements Screen {
                 bee.setFinJuego(true);
             }
 
-            enemyList.get(i).move();
-            enemyList.get(i).update(deltaTime);
+            if (!optionsMenu) {
+                enemyList.get(i).move();
+                enemyList.get(i).update(deltaTime);
+            }
 
             spriteBatch.draw(enemyList.get(i).getEnemyTexture(), enemyList.get(i).getPosX(), enemyList.get(i).getPosY(), enemyList.get(i).getWidth(), enemyList.get(i).getHeight());
             // Detecta colisiones entre la abeja y los enemigos
@@ -448,7 +450,7 @@ public class Level2 implements Screen {
 
         if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("bird.png"), 10, false, false, -400));
+                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("spriteBird.png"), 10, false, false, -650));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
@@ -461,7 +463,7 @@ public class Level2 implements Screen {
         }
 
         if (escudoSpawnTimer > timeBetweenSpawnsEscudo) { // ITEM ESCUDO
-            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_MusicaON.png"), 1, false, true, -400));
+            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("spriteShield.png"), 1, false, true, -400));
 
             escudoSpawnTimer -= timeBetweenSpawnsEscudo;
         }
