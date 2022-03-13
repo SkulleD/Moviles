@@ -2,6 +2,7 @@ package com.mygdx.byebee.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -168,6 +169,8 @@ public class Character {
     public void setTexture(Texture texture) {
         this.texture = texture;
     }
+
+
 
     /**
      * Método para conseguir la cantidad de salud del personaje.
