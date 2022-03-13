@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -51,6 +52,16 @@ public class Bee extends Character {
     Preferences preferences;
 
     /**
+     * Se usa para poder tener un sprite animado.
+     */
+    private Animation beeAnimation;
+
+    /**
+     * Recurso gráfico que contiene la spritesheet de la abeja.
+     */
+    private Texture beeTexture;
+
+    /**
      * Constructor que inicializa los parámetros iniciales de la abeja.
      * @param posX La posición en el eje X de la abeja.
      * @param posY La posición en el eje Y de la abeja.
@@ -64,6 +75,8 @@ public class Bee extends Character {
         this.speed = new Vector2(0, 0);
         this.finJuego = false;
         this.hasShield = false;
+        this.beeTexture = texture;
+        beeAnimation = new Animation(new TextureRegion(beeTexture), 3, 0.5f);
 
         preferences = Gdx.app.getPreferences("byebee");
         this.invencible = preferences.getBoolean("invencible", false);
@@ -77,6 +90,8 @@ public class Bee extends Character {
      * @param deltaTime El tiempo en segundos desde el último renderizado.
      */
     public void update(float deltaTime) {
+        beeAnimation.update(deltaTime);
+
         if (finJuego) {
             speed.x = 0;
             speed.y = 0;
@@ -206,5 +221,13 @@ public class Bee extends Character {
      */
     public void setHasShield(boolean hasShield) {
         this.hasShield = hasShield;
+    }
+
+    /**
+     * Método que devuelve cada frame del sprite animado de la abeja.
+     * @return cada frame del sprite animado de la abeja.
+     */
+    public TextureRegion getBeeTexture() {
+        return beeAnimation.getFrame();
     }
 }
