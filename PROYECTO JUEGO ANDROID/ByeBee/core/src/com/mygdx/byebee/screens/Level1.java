@@ -292,9 +292,9 @@ public class Level1 implements Screen {
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                 ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bird.png"), 10, false, false, -400);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bee_lancer.png"), 4, false, false, -400);
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteBeeLancer.png"), 4, false, false, -400);
 
-        meta = new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("beeMeta.png"), 100, true, false, -400);
+        meta = new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("spriteMeta.png"), 100, true, false, -400);
 
         escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_MusicaON.png"), 1, false, true, -400);
 
@@ -358,7 +358,7 @@ public class Level1 implements Screen {
             enemyList.get(i).move();
             enemyList.get(i).update(deltaTime);
 
-            spriteBatch.draw(enemyList.get(i).getTexture(), enemyList.get(i).getPosX(), enemyList.get(i).getPosY(), enemyList.get(i).getWidth(), enemyList.get(i).getHeight());
+            spriteBatch.draw(enemyList.get(i).getEnemyTexture(), enemyList.get(i).getPosX(), enemyList.get(i).getPosY(), enemyList.get(i).getWidth(), enemyList.get(i).getHeight());
             // Detecta colisiones entre la abeja y los enemigos
             detectCollisions();
         }
@@ -421,7 +421,7 @@ public class Level1 implements Screen {
                             soundShieldBreak.play();
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHasShield(false);
-                            spriteBatch.draw(new Texture("bee.png"), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
+                            spriteBatch.draw(new Texture("spriteBee.png"), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
                         } else {
                             System.out.println("BEE IS HIT");
                             soundDamage.play();
@@ -456,7 +456,7 @@ public class Level1 implements Screen {
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("bee_lancer.png"), 5, false, false, -400));
+                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("spriteBeeLancer.png"), 5, false, false, -400));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }
@@ -468,7 +468,7 @@ public class Level1 implements Screen {
         }
 
        if (metaSpawnTimer > timeBetweenSpawnsMeta) { // META FINAL DE NIVEL
-           enemyList.add(new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("beeMeta.png"), 100, true, false, -400));
+           enemyList.add(new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("spriteMeta.png"), 100, true, false, -400));
 
            metaSpawnTimer -= timeBetweenSpawnsMeta;
        }

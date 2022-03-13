@@ -326,7 +326,7 @@ public class Level4 implements Screen {
             enemyList.get(i).move();
             enemyList.get(i).update(deltaTime);
 
-            spriteBatch.draw(enemyList.get(i).getTexture(), enemyList.get(i).getPosX(), enemyList.get(i).getPosY(), enemyList.get(i).getWidth(), enemyList.get(i).getHeight());
+            spriteBatch.draw(enemyList.get(i).getEnemyTexture(), enemyList.get(i).getPosX(), enemyList.get(i).getPosY(), enemyList.get(i).getWidth(), enemyList.get(i).getHeight());
             // Detecta colisiones entre la abeja y los enemigos
             detectCollisions();
         }
@@ -384,7 +384,7 @@ public class Level4 implements Screen {
                             soundShieldBreak.play();
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHasShield(false);
-                            spriteBatch.draw(new Texture("bee.png"), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
+                            spriteBatch.draw(new Texture("spriteBee.png"), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
                         } else {
                             System.out.println("BEE IS HIT");
                             soundDamage.play();
