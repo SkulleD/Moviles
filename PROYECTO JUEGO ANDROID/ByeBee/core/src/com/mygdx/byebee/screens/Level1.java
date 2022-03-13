@@ -128,7 +128,7 @@ public class Level1 implements Screen {
     /**
      * Se usa para calcular el momento en el que aparece la línea meta.
      */
-    private float timeBetweenSpawnsMeta = 2f;
+    private float timeBetweenSpawnsMeta = 50f;
 
     /**
      * Se usa para calcular cada cuánto aparece un objeto escudo.
@@ -288,7 +288,7 @@ public class Level1 implements Screen {
 
         health = new Health(10, ByeBee.HEIGHT - 100, ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture[8]);
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
-                ByeBee.WIDTH / 7, ByeBee.HEIGHT / 6, new Texture("bee.png"), 7);
+                ByeBee.WIDTH / 7, ByeBee.HEIGHT / 6, new Texture("spriteBee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                 ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bird.png"), 10, false, false, -400);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
@@ -334,14 +334,13 @@ public class Level1 implements Screen {
         // Llamada a métodos de personajes
         if (!optionsMenu) {
             bee.fly();
+            bee.update(deltaTime);
         }
-
-        bee.update(deltaTime);
 
         spriteBatch.begin();
 
         renderBackground(deltaTime); // Muestra fondo parallax
-        spriteBatch.draw(bee.getTexture(), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
+        spriteBatch.draw(bee.getBeeTexture(), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
 
         if (bee.isHasShield()) { // Si la abeja tiene actualmente un escudo se le dibuja encima
             spriteBatch.draw(new Texture("btn_MusicaON.png"), bee.getPosX(), bee.getPosY(), escudo.getWidth(), escudo.getHeight());
