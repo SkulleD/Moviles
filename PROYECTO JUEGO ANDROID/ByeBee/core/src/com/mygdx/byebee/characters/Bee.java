@@ -62,6 +62,11 @@ public class Bee extends Character {
     private Texture beeTexture;
 
     /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
+    private boolean checkMusicSound;
+
+    /**
      * Constructor que inicializa los parámetros iniciales de la abeja.
      * @param posX La posición en el eje X de la abeja.
      * @param posY La posición en el eje Y de la abeja.
@@ -80,6 +85,7 @@ public class Bee extends Character {
 
         preferences = Gdx.app.getPreferences("byebee");
         this.invencible = preferences.getBoolean("invencible", false);
+        checkMusicSound = preferences.getBoolean("musicSound", true);
 
         soundFly = Gdx.audio.newSound(Gdx.files.internal("sound_Fly.mp3"));
         soundFly.setVolume(1, 1);
@@ -136,7 +142,9 @@ public class Bee extends Character {
      */
     public void fly() {
         if (Gdx.input.justTouched() && this.health > 0) {
-            soundFly.play();
+            if (checkMusicSound) {
+                soundFly.play();
+            }
 
             if (this.posY > 0) {
                 speed.y = 170;
