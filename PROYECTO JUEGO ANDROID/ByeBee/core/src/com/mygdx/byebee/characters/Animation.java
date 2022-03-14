@@ -3,14 +3,47 @@ package com.mygdx.byebee.characters;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * Esta clase se usa para que los sprites de los personajes estén animados.
+ */
 public class Animation {
+
+    /**
+     * Aquí se guarda cada frame de los sprites.
+     */
     private Array<TextureRegion> frames;
+
+    /**
+     * El tiempo que un frame se mantiene a la vista hasta pasar al siguiente frame.
+     */
     private float maxFrameTime;
+
+    /**
+     * El tiempo que la animación ha estado en el frame actual.
+     */
     private float currentFrameTime;
+
+    /**
+     * El número de frames en la animación.
+     */
     private int frameCount;
+
+    /**
+     * El frame en el que estamos actualmente.
+     */
     private int frameActual;
+
+    /**
+     * El ancho de cada frame.
+     */
     private int frameWidth;
 
+    /**
+     * Constructor que inicializa los parámetros iniciales de la clase.
+     * @param region
+     * @param frameCount
+     * @param ciclo
+     */
     public Animation (TextureRegion region, int frameCount, float ciclo) {
         frames = new Array<>();
         frameWidth = region.getRegionWidth() / frameCount;
@@ -24,6 +57,10 @@ public class Animation {
         frameActual = 0;
     }
 
+    /**
+     * Método que actualiza los valores de los enemigos cada vez que la pantalla es renderizada.
+     * @param deltaTime El tiempo en segundos desde el último renderizado.
+     */
     public void update(float deltaTime) {
         currentFrameTime += deltaTime;
 
@@ -37,6 +74,10 @@ public class Animation {
         }
     }
 
+    /**
+     * Método que devuelve cada frame del sprite animado de la abeja.
+     * @return cada frame del sprite animado de la abeja.
+     */
     public TextureRegion getFrame() {
         return frames.get(frameActual);
     }
