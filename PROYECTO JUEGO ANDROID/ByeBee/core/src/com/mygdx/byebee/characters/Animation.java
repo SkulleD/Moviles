@@ -40,9 +40,9 @@ public class Animation {
 
     /**
      * Constructor que inicializa los parámetros iniciales de la clase.
-     * @param region
-     * @param frameCount
-     * @param ciclo
+     * @param region la sprite sheet que contiene cada frame de la animación del sprite.
+     * @param frameCount el número de frames de la animación.
+     * @param ciclo cuánto se va a tardar en completar un ciclo de la animación.
      */
     public Animation (TextureRegion region, int frameCount, float ciclo) {
         frames = new Array<>();
