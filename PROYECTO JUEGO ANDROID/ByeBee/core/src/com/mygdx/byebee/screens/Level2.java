@@ -482,7 +482,7 @@ public class Level2 implements Screen {
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
-        if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
+        if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // AVISPA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                     ByeBee.WIDTH / 4, ByeBee.HEIGHT / 4, new Texture("spriteWasp.png"), 5, false, false, -450));
 

@@ -26,7 +26,7 @@ import java.util.ListIterator;
 
 /**
  * Este es el nivel jugable bonus de ByeBee. Este nivel no tiene final.
- * Dificultad: Media-Difícil.
+ * Dificultad: Difícil.
  */
 public class Level4 implements Screen {
 
@@ -127,19 +127,34 @@ public class Level4 implements Screen {
     private float bgMaxScrollSpeed; // Para el movimiento del escenario
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo pájaro.
+     * Se usa para calcular cada cuánto aparece un enemigo PÁJARO.
      */
-    private float timeBetweenSpawnsBird = 7f;
+    private float timeBetweenSpawnsBird = 12f;
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo abeja lancera.
+     * Se usa para calcular cada cuánto aparece un enemigo ABEJA LANCERA.
      */
     private float timeBetweenSpawnsBeeLancer = 3f;
 
     /**
+     * Se usa para calcular cada cuánto aparece un enemigo ESCARABAJO.
+     */
+    private float timeBetweenSpawnsBeetle = 10f;
+
+    /**
+     * Se usa para calcular cada cuánto aparece un enemigo AVISPA.
+     */
+    private float timeBetweenSpawnsWasp = 15f;
+
+    /**
+     * Se usa para calcular cada cuánto aparece un enemigo ROBOABEJA.
+     */
+    private float timeBetweenSpawnsRoboBee = 7f;
+
+    /**
      * Se usa para calcular cada cuánto aparece un objeto escudo.
      */
-    private float timeBetweenSpawnsEscudo = 16f;
+    private float timeBetweenSpawnsEscudo = 11f;
 
     /**
      * Sirve como base para los cálculos de aparición de los enemigos pájaros.
@@ -150,6 +165,21 @@ public class Level4 implements Screen {
      * Sirve como base para los cálculos de aparición de los enemigos abejas lanceras.
      */
     private float beeLancerSpawnTimer = 0;
+
+    /**
+     * Sirve como base para los cálculos de aparición de los enemigos escarabajos.
+     */
+    private float beetleSpawnTimer = 0;
+
+    /**
+     * Sirve como base para los cálculos de aparición de los enemigos avispas.
+     */
+    private float waspSpawnTimer = 0;
+
+    /**
+     * Sirve como base para los cálculos de aparición de los enemigos roboabejas.
+     */
+    private float roboBeeSpawnTimer = 0;
 
     /**
      * Sirve como base para los cálculos de aparición de los objetos escudos.
@@ -189,6 +219,21 @@ public class Level4 implements Screen {
      * El enemigo abeja lancera. Si te golpea te quita un punto de vida.
      */
     private Enemy beeLancer;
+
+    /**
+     * El enemigo escarabajo. Si te golpea te quita un punto de vida.
+     */
+    private Enemy beetle;
+
+    /**
+     * El enemigo avispa. Si te golpea te quita un punto de vida.
+     */
+    private Enemy wasp;
+
+    /**
+     * El enemigo roboabeja. Si te golpea te quita un punto de vida.
+     */
+    private Enemy roboBee;
 
     /**
      * El objeto escudo. Hace que puedas aguantar un golpe enemigo sin perder una vida.
@@ -278,9 +323,15 @@ public class Level4 implements Screen {
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
                 150, 150, new Texture("spriteBee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("bird.png"), 10, false, false, -400);
+                170, 170, new Texture("spriteBird.png"), 10, false, false, -400);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("bee_lancer.png"), 4, false, false, -400);
+                170, 170, new Texture("spriteBeeLancer.png"), 4, false, false, -400);
+        beetle = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteBeetle.png"), 10, false, false, -400);
+        wasp = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
+                170, 170, new Texture("spriteWasp.png"), 4, false, false, -400);
+        roboBee = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteRoboBee.png"), 10, false, false, -250);
 
         escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("spriteShield.png"), 1, false, true, -400);
 
@@ -434,21 +485,44 @@ public class Level4 implements Screen {
     private void spawnEntities(float deltaTime) { // Hace que los enemigos vayan apareciendo de forma aleatoria
         birdSpawnTimer += deltaTime;
         beeLancerSpawnTimer += deltaTime;
+        beetleSpawnTimer += deltaTime;
+        waspSpawnTimer += deltaTime;
+        roboBeeSpawnTimer += deltaTime;
         escudoSpawnTimer += deltaTime;
-
 
         if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("bird.png"), 10, false, false, -400));
+                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("spriteBird.png"), 10, false, false, -700));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("bee_lancer.png"), 5, false, false, -400));
+                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("spriteBeeLancer.png"), 5, false, false, -400));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
+        }
+
+        if (beetleSpawnTimer > timeBetweenSpawnsBeetle) { // ESCARABAJO
+            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
+                    ByeBee.WIDTH / 3, ByeBee.HEIGHT / 4, new Texture("spriteBeetle.png"), 10, false, false, -600));
+
+            beetleSpawnTimer -= timeBetweenSpawnsBeetle;
+        }
+
+        if (waspSpawnTimer > timeBetweenSpawnsWasp) { // AVISPA
+            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
+                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 4, new Texture("spriteWasp.png"), 5, false, false, -800));
+
+            waspSpawnTimer -= timeBetweenSpawnsWasp;
+        }
+
+        if (roboBeeSpawnTimer > timeBetweenSpawnsRoboBee) { // ROBOABEJA
+            enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
+                    ByeBee.WIDTH / 3, ByeBee.HEIGHT / 3, new Texture("spriteRoboBee.png"), 10, false, false, -300));
+
+            roboBeeSpawnTimer -= timeBetweenSpawnsRoboBee;
         }
 
         if (escudoSpawnTimer > timeBetweenSpawnsEscudo) { // ITEM ESCUDO
