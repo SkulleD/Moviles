@@ -1,6 +1,7 @@
 package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -104,6 +105,16 @@ public class Level1 implements Screen {
      */
     private Texture[] backgrounds;
 
+    /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
+    private boolean checkMusicSound;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
+    Preferences preferences;
+
     // Timings del movimiento de fondo y spawns de entidades
     /**
      * Array de floats usado para calcular la velocidad de las imágenes que forman el fondo del nivel.
@@ -180,7 +191,7 @@ public class Level1 implements Screen {
     private LinkedList<Enemy> enemyList;
 
     /**
-     * El enemigo pájaro. Si te golpea te quita un punto de vida.
+     * El enemigo escarabajo (aunque ponga bird). Si te golpea te quita un punto de vida.
      */
     private Enemy bird;
 
@@ -256,24 +267,31 @@ public class Level1 implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+        preferences = Gdx.app.getPreferences("byebee");
+        checkMusicSound = preferences.getBoolean("musicSound", true);
 
         bgmLevel1 = Gdx.audio.newMusic(Gdx.files.internal("bgm_level1.mp3"));
         bgmLevel1.setLooping(true);
         bgmLevel1.setVolume(1);
-        bgmLevel1.play();
 
-        soundDamage = Gdx.audio.newSound(Gdx.files.internal("sound_Damage.mp3"));
-        soundDamage.setVolume(2, 1);
-        soundShieldGet = Gdx.audio.newSound(Gdx.files.internal("sound_shieldGet.mp3"));
-        soundShieldGet.setVolume(3, 1);
-        soundShieldBreak = Gdx.audio.newSound(Gdx.files.internal("sound_shieldBreak.mp3"));
-        soundShieldBreak.setVolume(4, 1);
-        soundLevelClear = Gdx.audio.newSound(Gdx.files.internal("sound_levelClear.mp3"));
-        soundLevelClear.setVolume(5, 1);
-        soundLevelFail = Gdx.audio.newSound(Gdx.files.internal("sound_levelFail.mp3"));
-        soundLevelFail.setVolume(6, 1);
-        soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
-        soundBtnClick.setVolume(7, 1);
+        if (checkMusicSound) {
+            bgmLevel1.play();
+        }
+
+        if (checkMusicSound) {
+            soundDamage = Gdx.audio.newSound(Gdx.files.internal("sound_Damage.mp3"));
+            soundDamage.setVolume(2, 1);
+            soundShieldGet = Gdx.audio.newSound(Gdx.files.internal("sound_shieldGet.mp3"));
+            soundShieldGet.setVolume(3, 1);
+            soundShieldBreak = Gdx.audio.newSound(Gdx.files.internal("sound_shieldBreak.mp3"));
+            soundShieldBreak.setVolume(4, 1);
+            soundLevelClear = Gdx.audio.newSound(Gdx.files.internal("sound_levelClear.mp3"));
+            soundLevelClear.setVolume(5, 1);
+            soundLevelFail = Gdx.audio.newSound(Gdx.files.internal("sound_levelFail.mp3"));
+            soundLevelFail.setVolume(6, 1);
+            soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
+            soundBtnClick.setVolume(7, 1);
+        } // Haría un else poniendo volúmenes a 0 pero eso no funciona por alguna razón
 
         backgrounds = new Texture[4];
         backgrounds[0] = new Texture("lvl1_background3.png");
@@ -290,7 +308,7 @@ public class Level1 implements Screen {
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
                 ByeBee.WIDTH / 7, ByeBee.HEIGHT / 6, new Texture("spriteBee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteBird.png"), 10, false, false, -400);
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteBeetle.png"), 10, false, false, -400);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                 ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteBeeLancer.png"), 4, false, false, -400);
 
@@ -412,7 +430,10 @@ public class Level1 implements Screen {
                 } else if (enemy.isItem()) {
                     if (!bee.isHasShield()) { // Solo puede conseguir un escudo si no tiene ninguno equipado
                         System.out.println("SHIELD GET");
-                        soundShieldGet.play();
+                        if (checkMusicSound) {
+                            soundShieldGet.play();
+                        }
+
                         bee.setHasShield(true);
                         enemyListIterator.remove();
                     }
@@ -420,13 +441,19 @@ public class Level1 implements Screen {
                     if (!enemy.isHasHit() && !bee.isInvencible()) {
                         if (bee.isHasShield()) {
                             System.out.println("SHIELD PROTECTS BEE AND BREAKS");
-                            soundShieldBreak.play();
+                            if (checkMusicSound) {
+                                soundShieldBreak.play();
+                            }
+
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHasShield(false);
                             spriteBatch.draw(new Texture("spriteBee.png"), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
                         } else {
                             System.out.println("BEE IS HIT");
-                            soundDamage.play();
+                            if (checkMusicSound) {
+                                soundDamage.play();
+                            }
+
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHealth(bee.getHealth() - 1);
                             puntuacion.setScore(puntuacion.getScore() - 100); // Pierdes 100 puntos si un enemigo te toca
@@ -449,9 +476,9 @@ public class Level1 implements Screen {
         metaSpawnTimer += deltaTime;
         escudoSpawnTimer += deltaTime;
 
-        if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
+        if (birdSpawnTimer > timeBetweenSpawnsBird) { // ESCARABAJO
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("spriteBird.png"), 10, false, false, -650));
+                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("spriteBeetle.png"), 10, false, false, -650));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
@@ -499,7 +526,10 @@ public class Level1 implements Screen {
     private void gameOver() {
         if (bee.getHealth() == 0) {
             if (!soundOnce) {
-                soundLevelFail.play();
+                if (checkMusicSound) {
+                    soundLevelFail.play();
+                }
+
                 soundOnce = true;
             }
 
@@ -517,7 +547,10 @@ public class Level1 implements Screen {
     private void levelCompleted() {
         if (levelFinished) {
             if (!soundOnce) {
-                soundLevelClear.play();
+                if (checkMusicSound) {
+                    soundLevelClear.play();
+                }
+
                 soundOnce = true;
             }
 
@@ -561,21 +594,30 @@ public class Level1 implements Screen {
 
             if (btnRetry.getBoton().contains(touched) && optionsMenu) { // VOLVER A INTENTAR EL NIVEL
                 System.out.println("RETRY LEVEL 1");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 bgmLevel1.stop();
                 byebee.setLevel1();
             }
 
             if (btnMenu.getBoton().contains(touched) && optionsMenu) { // VOLVER AL MENÚ DE SELECCIÓN DE NIVEL
                 System.out.println("BACK TO MENU");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 bgmLevel1.stop();
                 byebee.setTitleScreen();
             }
 
             if (btnContinue.getBoton().contains(touched) && optionsMenu) { // COMPLETAR NIVEL Y VOLVER A MENÚ DE SELECCIÓN DE NIVEL
                 System.out.println("LEVEL COMPLETED");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 bgmLevel1.stop();
                 byebee.setTitleScreen();
             }
@@ -625,5 +667,6 @@ public class Level1 implements Screen {
         texto.dispose();
         spriteBatch.dispose();
         bgmLevel1.dispose();
+        this.dispose();
     }
 }

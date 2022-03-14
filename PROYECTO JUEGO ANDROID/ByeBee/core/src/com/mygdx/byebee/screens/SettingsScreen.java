@@ -177,14 +177,20 @@ public class SettingsScreen implements Screen {
 
             if (btnBack.getBoton().contains(touched)) {
                 System.out.println("BACK");
-                soundBtnClick.play();
+                if (musicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setTitleScreen();
             }
 
             // Activa la invencibilidad de la abeja contra los enemigos
             if (btnGodModeON.getBoton().contains(touched)) {
                 System.out.println("GOD MODE ON");
-                soundBtnClick.play();
+                if (musicSound) {
+                    soundBtnClick.play();
+                }
+
                 godmode = true;
                 preferences.putBoolean("invencible", godmode);
                 preferences.flush();
@@ -193,7 +199,10 @@ public class SettingsScreen implements Screen {
             // Desactiva la invencibilidad de la abeja contra los enemigos
             if (btnGodModeOFF.getBoton().contains(touched)) {
                 System.out.println("GOD MODE OFF");
-                soundBtnClick.play();
+                if (musicSound) {
+                    soundBtnClick.play();
+                }
+
                 godmode = false;
                 preferences.putBoolean("invencible", godmode);
                 preferences.flush();
@@ -202,7 +211,10 @@ public class SettingsScreen implements Screen {
             // Activa la música y los sonidos del juego
             if (btnMusicON.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS ON");
-                soundBtnClick.play();
+                if (musicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.bgmMenus.play();
                 musicSound = true;
                 preferences.putBoolean("musicSound", musicSound);
@@ -212,7 +224,10 @@ public class SettingsScreen implements Screen {
             // Desactiva la música y los sonidos del juego
             if (btnMusicOFF.getBoton().contains(touched)) {
                 System.out.println("MUSICA Y SONIDOS OFF");
-                soundBtnClick.play();
+                if (musicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.bgmMenus.stop();
                 musicSound = false;
                 preferences.putBoolean("musicSound", musicSound);
@@ -225,7 +240,10 @@ public class SettingsScreen implements Screen {
                     if (btnFullScreenON.getBoton().contains(touched)) {
                         if (!fullscreen) {
                             System.out.println("FULLSCREEN ON");
-                            soundBtnClick.play();
+                            if (musicSound) {
+                                soundBtnClick.play();
+                            }
+
                             fullscreen = true;
                             Gdx.graphics.setUndecorated(true);
                             Gdx.graphics.setWindowedMode(displayMode.width, displayMode.height);
@@ -238,7 +256,10 @@ public class SettingsScreen implements Screen {
                     if (btnFullScreenOFF.getBoton().contains(touched)) {
                         if (fullscreen) {
                             System.out.println("FULLSCREEN OFF");
-                            soundBtnClick.play();
+                            if (musicSound) {
+                                soundBtnClick.play();
+                            }
+
                             fullscreen = false;
                             Gdx.graphics.setUndecorated(false);
                             Gdx.graphics.setWindowedMode(ByeBee.WIDTH, ByeBee.HEIGHT);

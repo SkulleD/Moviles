@@ -1,6 +1,7 @@
 package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
@@ -73,6 +74,16 @@ public class InfoScreen implements Screen {
     private boolean rightOrLeft = false;
 
     /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
+    private boolean checkMusicSound;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
+    Preferences preferences;
+
+    /**
      * Constructor que inicializa los campos necesario de esta pantalla.
      * @param byebee Sirve para acceder a los métodos de la clase base ByeBee.
      */
@@ -80,6 +91,8 @@ public class InfoScreen implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+        preferences = Gdx.app.getPreferences("byebee");
+        checkMusicSound = preferences.getBoolean("musicSound", true);
 
         soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
         soundBtnClick.setVolume(7, 1);
@@ -138,12 +151,18 @@ public class InfoScreen implements Screen {
 
             if (btnBack.getBoton().contains(touched)) {
                 System.out.println("BACK");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setTitleScreen();
             }
 
             if (btnRight.getBoton().contains(touched)) {
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 if (rightOrLeft) {
                     rightOrLeft = false;
                 } else {

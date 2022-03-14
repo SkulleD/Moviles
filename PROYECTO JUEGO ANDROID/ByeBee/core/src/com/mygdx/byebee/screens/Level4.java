@@ -1,6 +1,7 @@
 package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -103,6 +104,16 @@ public class Level4 implements Screen {
      * Array que contiene los diferentes recursos gráficos que forman el fondo del nivel.
      */
     private Texture[] backgrounds;
+
+    /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
+    private boolean checkMusicSound;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
+    Preferences preferences;
 
     // Timing cosas
     /**
@@ -230,11 +241,16 @@ public class Level4 implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+        preferences = Gdx.app.getPreferences("byebee");
+        checkMusicSound = preferences.getBoolean("musicSound", true);
 
         bgmLevel4 = Gdx.audio.newMusic(Gdx.files.internal("bgm_level4.mp3"));
         bgmLevel4.setLooping(true);
         bgmLevel4.setVolume(1);
-        bgmLevel4.play();
+
+        if (checkMusicSound) {
+            bgmLevel4.play();
+        }
 
         soundDamage = Gdx.audio.newSound(Gdx.files.internal("sound_Damage.mp3"));
         soundDamage.setVolume(2, 1);
@@ -254,7 +270,7 @@ public class Level4 implements Screen {
         backgrounds[1] = new Texture("lvl4_background2.png");
         backgrounds[2] = new Texture("lvl4_background1.png");
         backgrounds[3] = new Texture("lvl4_foreground.png");
-        bgMaxScrollSpeed = (float) (ByeBee.WIDTH / 4);
+        bgMaxScrollSpeed = (float) (ByeBee.WIDTH / 2);
 
         enemyList = new LinkedList<>();
 
@@ -266,7 +282,7 @@ public class Level4 implements Screen {
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                 170, 170, new Texture("bee_lancer.png"), 4, false, false, -400);
 
-        escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("spriteShield1.png"), 1, false, true, -400);
+        escudo = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("spriteShield.png"), 1, false, true, -400);
 
         btnRetry = new Options(ByeBee.WIDTH / 5, ByeBee.HEIGHT / 4, Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 5, new Texture("btnReintentar.png"));
         levelCompleted = new Texture("beeLevelFinished_vacio.png");
@@ -375,7 +391,10 @@ public class Level4 implements Screen {
                 if (enemy.isItem()) {
                     if (!bee.isHasShield()) { // Solo puede conseguir un escudo si no tiene ninguno equipado
                         System.out.println("SHIELD GET");
-                        soundShieldGet.play();
+                        if (checkMusicSound) {
+                            soundShieldGet.play();
+                        }
+
                         bee.setHasShield(true);
                         enemyListIterator.remove();
                     }
@@ -383,13 +402,19 @@ public class Level4 implements Screen {
                     if (!enemy.isHasHit() && !bee.isInvencible()) {
                         if (bee.isHasShield()) {
                             System.out.println("SHIELD PROTECTS BEE AND BREAKS");
-                            soundShieldBreak.play();
+                            if (checkMusicSound) {
+                                soundShieldBreak.play();
+                            }
+
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHasShield(false);
                             spriteBatch.draw(new Texture("spriteBee.png"), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
                         } else {
                             System.out.println("BEE IS HIT");
-                            soundDamage.play();
+                            if (checkMusicSound) {
+                                soundDamage.play();
+                            }
+
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHealth(bee.getHealth() - 1);
                             puntuacion.setScore(puntuacion.getScore() - 100); // Pierdes 100 puntos si un enemigo te toca
@@ -458,7 +483,10 @@ public class Level4 implements Screen {
     private void levelCompleted() {
         if (levelFinished) {
             if (!soundOnce) {
-                soundLevelClear.play();
+                if (checkMusicSound) {
+                    soundLevelClear.play();
+                }
+
                 soundOnce = true;
             }
 
@@ -570,5 +598,6 @@ public class Level4 implements Screen {
         texto.dispose();
         spriteBatch.dispose();
         bgmLevel4.dispose();
+        this.dispose();
     }
 }

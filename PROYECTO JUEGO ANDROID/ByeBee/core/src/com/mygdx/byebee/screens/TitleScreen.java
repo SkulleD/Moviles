@@ -97,7 +97,7 @@ public class TitleScreen implements Screen {
         preferences = Gdx.app.getPreferences("byebee");
         checkMusicSound = preferences.getBoolean("musicSound", true);
 
-        if (!byebee.bgmMenus.isPlaying() && !checkMusicSound) { // Al salir de un nivel deja de sonar su música y vuelve a sonar la de los menús
+        if (!byebee.bgmMenus.isPlaying() && checkMusicSound) { // Al salir de un nivel deja de sonar su música y vuelve a sonar la de los menús
             byebee.bgmMenus.play();
         }
 
@@ -156,31 +156,46 @@ public class TitleScreen implements Screen {
 
             if (optionsPlay.getBoton().contains(touched)) { // BOTÓN JUGAR
                 System.out.println("JUGAR");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setLevelSelect();
             }
 
             if (optionsInfo.getBoton().contains(touched)) { // BOTÓN INFO
                 System.out.println("INFO");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setInfoScreen();
             }
 
             if (optionsCredits.getBoton().contains(touched)) { // BOTÓN CRÉDITOS
                 System.out.println("CREDITS");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setCreditsScreen();
             }
 
             if (optionsSettings.getBoton().contains(touched)) { // BOTÓN AJUSTES
                 System.out.println("SETTINGS");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setSettingsScreen();
             }
 
             if (optionsRecords.getBoton().contains(touched)) { // BOTÓN PUNTUACIONES
                 System.out.println("RECORDS");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setScoreScreen();
             }
         }
@@ -227,6 +242,7 @@ public class TitleScreen implements Screen {
     @Override
     public void dispose() {
         spriteBatch.dispose();
+        soundBtnClick.dispose();
         this.dispose();
     }
 }

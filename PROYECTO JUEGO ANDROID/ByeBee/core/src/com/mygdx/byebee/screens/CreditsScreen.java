@@ -1,6 +1,7 @@
 package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
@@ -52,6 +53,16 @@ public class CreditsScreen implements Screen {
      */
     private Options btnBack;
 
+    /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
+    private boolean checkMusicSound;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
+    Preferences preferences;
+
 
     /**
      * Constructor que inicializa los campos necesario de esta pantalla.
@@ -61,6 +72,8 @@ public class CreditsScreen implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+        preferences = Gdx.app.getPreferences("byebee");
+        checkMusicSound = preferences.getBoolean("musicSound", true);
 
         soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
         soundBtnClick.setVolume(7, 1);
@@ -102,7 +115,10 @@ public class CreditsScreen implements Screen {
 
             if (btnBack.getBoton().contains(touched)) {
                 System.out.println("BACK");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setTitleScreen();
             }
         }

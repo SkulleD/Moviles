@@ -1,6 +1,7 @@
 package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -103,6 +104,16 @@ public class Level3 implements Screen {
      * Array que contiene los diferentes recursos gráficos que forman el fondo del nivel.
      */
     private Texture[] backgrounds;
+
+    /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
+    private boolean checkMusicSound;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
+    Preferences preferences;
 
     // Timings del movimiento de fondo y spawns de enemigos
     /**
@@ -256,11 +267,16 @@ public class Level3 implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+        preferences = Gdx.app.getPreferences("byebee");
+        checkMusicSound = preferences.getBoolean("musicSound", true);
 
         bgmLevel3 = Gdx.audio.newMusic(Gdx.files.internal("bgm_level3.mp3"));
         bgmLevel3.setLooping(true);
         bgmLevel3.setVolume(1);
-        bgmLevel3.play();
+
+        if (checkMusicSound) {
+            bgmLevel3.play();
+        }
 
         soundDamage = Gdx.audio.newSound(Gdx.files.internal("sound_Damage.mp3"));
         soundDamage.setVolume(2, 1);
@@ -410,7 +426,10 @@ public class Level3 implements Screen {
                 } else if (enemy.isItem()) {
                     if (!bee.isHasShield()) { // Solo puede conseguir un escudo si no tiene ninguno equipado
                         System.out.println("SHIELD GET");
-                        soundShieldGet.play();
+                        if (checkMusicSound) {
+                            soundShieldGet.play();
+                        }
+
                         bee.setHasShield(true);
                         enemyListIterator.remove();
                     }
@@ -418,13 +437,19 @@ public class Level3 implements Screen {
                     if (!enemy.isHasHit() && !bee.isInvencible()) {
                         if (bee.isHasShield()) {
                             System.out.println("SHIELD PROTECTS BEE AND BREAKS");
-                            soundShieldBreak.play();
+                            if (checkMusicSound) {
+                                soundShieldBreak.play();
+                            }
+
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHasShield(false);
                             spriteBatch.draw(new Texture("spriteBee.png"), bee.getPosX(), bee.getPosY(), bee.getWidth(), bee.getHeight());
                         } else {
                             System.out.println("BEE IS HIT");
-                            soundDamage.play();
+                            if (checkMusicSound) {
+                                soundDamage.play();
+                            }
+
                             enemy.setHasHit(true); // Cuando un enemigo golpea a la abeja, ya no puede volver a golpearla
                             bee.setHealth(bee.getHealth() - 1);
                             puntuacion.setScore(puntuacion.getScore() - 100); // Pierdes 100 puntos si un enemigo te toca
@@ -498,7 +523,10 @@ public class Level3 implements Screen {
     private void gameOver() {
         if (bee.getHealth() == 0) {
             if (!soundOnce) {
-                soundLevelFail.play();
+                if (checkMusicSound) {
+                    soundLevelFail.play();
+                }
+
                 soundOnce = true;
             }
 
@@ -516,7 +544,10 @@ public class Level3 implements Screen {
     private void levelCompleted() {
         if (levelFinished) {
             if (!soundOnce) {
-                soundLevelClear.play();
+                if (checkMusicSound) {
+                    soundLevelClear.play();
+                }
+
                 soundOnce = true;
             }
 
@@ -624,5 +655,6 @@ public class Level3 implements Screen {
         texto.dispose();
         spriteBatch.dispose();
         bgmLevel3.dispose();
+        this.dispose();
     }
 }

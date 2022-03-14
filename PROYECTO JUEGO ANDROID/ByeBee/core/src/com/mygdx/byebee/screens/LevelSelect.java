@@ -1,6 +1,7 @@
 package com.mygdx.byebee.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -74,6 +75,16 @@ public class LevelSelect implements Screen {
     private Options btnLvl4;
 
     /**
+     * Comprueba si la opción de activar/desactivar música había sido seleccionada la última vez que se jugó al juego.
+     */
+    private boolean checkMusicSound;
+
+    /**
+     * Se usa para poder utilizar persistencia de datos.
+     */
+    Preferences preferences;
+
+    /**
      * Constructor que inicializa los campos necesario de esta pantalla.
      * @param byebee Sirve para acceder a los métodos de la clase base ByeBee.
      */
@@ -81,6 +92,8 @@ public class LevelSelect implements Screen {
         this.byebee = byebee;
         camera = new OrthographicCamera();
         viewport = new StretchViewport(ByeBee.WIDTH, ByeBee.HEIGHT, camera);
+        preferences = Gdx.app.getPreferences("byebee");
+        checkMusicSound = preferences.getBoolean("musicSound", true);
 
         soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
         soundBtnClick.setVolume(7, 1);
@@ -131,14 +144,20 @@ public class LevelSelect implements Screen {
 
             if (btnLvl1.getBoton().contains(touched)) {
                 System.out.println("LEVEL 1 SELECTED");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.bgmMenus.stop();
                 byebee.setLevel1();
             }
 
             if (btnLvl2.getBoton().contains(touched)) {
                 System.out.println("LEVEL 2 SELECTED");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.bgmMenus.stop();
 
                 byebee.setLevel2();
@@ -146,21 +165,30 @@ public class LevelSelect implements Screen {
 
             if (btnLvl3.getBoton().contains(touched)) {
                 System.out.println("LEVEL 3 SELECTED");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.bgmMenus.stop();
                 byebee.setLevel3();
             }
 
             if (btnLvl4.getBoton().contains(touched)) {
                 System.out.println("LEVEL 4 SELECTED");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.bgmMenus.stop();
                 byebee.setLevel4();
             }
 
             if (btnBack.getBoton().contains(touched)) {
                 System.out.println("BACK");
-                soundBtnClick.play();
+                if (checkMusicSound) {
+                    soundBtnClick.play();
+                }
+
                 byebee.setTitleScreen();
             }
         }
