@@ -127,14 +127,14 @@ public class Level2 implements Screen {
     private float bgMaxScrollSpeed; // Para el movimiento del escenario
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo pájaro.
+     * Se usa para calcular cada cuánto aparece un enemigo PÁJARO.
      */
-    private float timeBetweenSpawnsBird = 7f;
+    private float timeBetweenSpawnsBird = 6f;
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo abeja lancera.
+     * Se usa para calcular cada cuánto aparece un enemigo AVISPA.
      */
-    private float timeBetweenSpawnsBeeLancer = 3f;
+    private float timeBetweenSpawnsBeeLancer = 2f;
 
     /**
      * Se usa para calcular el momento en el que aparece la línea meta.
@@ -196,7 +196,7 @@ public class Level2 implements Screen {
     private Enemy bird;
 
     /**
-     * El enemigo abeja lancera. Si te golpea te quita un punto de vida.
+     * El enemigo avispa (aunque ponga abeja lancera). Si te golpea te quita un punto de vida.
      */
     private Enemy beeLancer;
 
@@ -298,7 +298,7 @@ public class Level2 implements Screen {
         backgrounds[1] = new Texture("lvl2_background2.png");
         backgrounds[2] = new Texture("lvl2_background1.png");
         backgrounds[3] = new Texture("lvl2_foreground.png");
-        bgMaxScrollSpeed = (float) (ByeBee.WIDTH / 3);
+        bgMaxScrollSpeed = (float) (ByeBee.WIDTH / 4);
 
         enemyList = new LinkedList<>();
 
@@ -308,7 +308,7 @@ public class Level2 implements Screen {
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
                 170, 170, new Texture("spriteBird.png"), 10, false, false, -400);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                170, 170, new Texture("spriteBeeLancer.png"), 4, false, false, -400);
+                170, 170, new Texture("spriteWasp.png"), 4, false, false, -400);
 
         meta = new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("spriteMeta.png"), 100, true, false, -400);
 
@@ -484,7 +484,7 @@ public class Level2 implements Screen {
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("spriteBeeLancer.png"), 5, false, false, -400));
+                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("spriteWasp.png"), 5, false, false, -450));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }

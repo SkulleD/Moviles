@@ -127,12 +127,12 @@ public class Level1 implements Screen {
     private float bgMaxScrollSpeed; // Para el movimiento del escenario
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo pájaro.
+     * Se usa para calcular cada cuánto aparece un enemigo ESCARABAJO.
      */
-    private float timeBetweenSpawnsBird = 7f;
+    private float timeBetweenSpawnsBird = 5f;
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo abeja lancera.
+     * Se usa para calcular cada cuánto aparece un enemigo ABEJA LANCERA.
      */
     private float timeBetweenSpawnsBeeLancer = 3f;
 
@@ -191,7 +191,7 @@ public class Level1 implements Screen {
     private LinkedList<Enemy> enemyList;
 
     /**
-     * El enemigo escarabajo (aunque ponga bird). Si te golpea te quita un punto de vida.
+     * El enemigo escarabajo (aunque ponga pájaro). Si te golpea te quita un punto de vida.
      */
     private Enemy bird;
 
