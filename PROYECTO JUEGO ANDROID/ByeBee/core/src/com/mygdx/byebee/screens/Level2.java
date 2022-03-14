@@ -152,7 +152,7 @@ public class Level2 implements Screen {
     private float birdSpawnTimer = 0;
 
     /**
-     * Sirve como base para los cálculos de aparición de los enemigos abejas lanceras.
+     * Sirve como base para los cálculos de aparición de los enemigos AVISPAS.
      */
     private float beeLancerSpawnTimer = 0;
 
@@ -477,14 +477,14 @@ public class Level2 implements Screen {
 
         if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("spriteBird.png"), 10, false, false, -650));
+                    ByeBee.WIDTH / 3, ByeBee.HEIGHT / 4, new Texture("spriteBird.png"), 10, false, false, -650));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("spriteWasp.png"), 5, false, false, -450));
+                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 4, new Texture("spriteWasp.png"), 5, false, false, -450));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }

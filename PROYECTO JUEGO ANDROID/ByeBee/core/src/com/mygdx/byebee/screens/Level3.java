@@ -127,14 +127,14 @@ public class Level3 implements Screen {
     private float bgMaxScrollSpeed; // Para el movimiento del escenario
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo pájaro.
+     * Se usa para calcular cada cuánto aparece un enemigo ROBOABEJA.
      */
-    private float timeBetweenSpawnsBird = 7f;
+    private float timeBetweenSpawnsBird = 5f;
 
     /**
-     * Se usa para calcular cada cuánto aparece un enemigo abeja lancera.
+     * Se usa para calcular cada cuánto aparece un enemigo ABEJA LANCERA.
      */
-    private float timeBetweenSpawnsBeeLancer = 3f;
+    private float timeBetweenSpawnsBeeLancer = 2f;
 
     /**
      * Se usa para calcular el momento en el que aparece la línea meta.
@@ -147,7 +147,7 @@ public class Level3 implements Screen {
     private float timeBetweenSpawnsEscudo = 16f;
 
     /**
-     * Sirve como base para los cálculos de aparición de los enemigos pájaros.
+     * Sirve como base para los cálculos de aparición de los enemigos ROBOABEJAS.
      */
     private float birdSpawnTimer = 0;
 
@@ -191,7 +191,7 @@ public class Level3 implements Screen {
     private LinkedList<Enemy> enemyList;
 
     /**
-     * El enemigo pájaro. Si te golpea te quita un punto de vida.
+     * El enemigo roboabeja (aunque ponga pájaro). Si te golpea te quita un punto de vida.
      */
     private Enemy bird;
 
@@ -295,7 +295,7 @@ public class Level3 implements Screen {
         backgrounds[0] = new Texture("lvl3_background2.png");
         backgrounds[1] = new Texture("lvl3_background1.png");
         backgrounds[2] = new Texture("lvl3_foreground.png");
-        bgMaxScrollSpeed = (float) (ByeBee.WIDTH / 4);
+        bgMaxScrollSpeed = (float) (ByeBee.WIDTH / 3);
         optionsMenu = false; // Esto hace que las opciones que salen al perder o ganar solo aparezcan con esto a true
         levelFinished = false; // Lo de nivel completado aparece en cuanto esto esté true
 
@@ -305,9 +305,9 @@ public class Level3 implements Screen {
         bee = new Bee(ByeBee.WIDTH / 6, ByeBee.HEIGHT / 3,
                 ByeBee.WIDTH / 7, ByeBee.HEIGHT / 6, new Texture("spriteBee.png"), 7);
         bird = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bird.png"), 10, false, false, -400);
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteRoboBee.png"), 10, false, false, -250);
         beeLancer = new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("bee_lancer.png"), 4, false, false, -400);
+                ByeBee.WIDTH / 6, ByeBee.HEIGHT / 7, new Texture("spriteBeeLancer.png"), 4, false, false, -550);
 
         meta = new Enemy(ByeBee.WIDTH, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT, new Texture("spriteMeta.png"), 100, true, false, -400);
 
@@ -473,16 +473,16 @@ public class Level3 implements Screen {
         escudoSpawnTimer += deltaTime;
 
 
-        if (birdSpawnTimer > timeBetweenSpawnsBird) { // PÁJARO
+        if (birdSpawnTimer > timeBetweenSpawnsBird) { // ROBOABEJA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("bird.png"), 10, false, false, -400));
+                    ByeBee.WIDTH / 3, ByeBee.HEIGHT / 3, new Texture("spriteRoboBee.png"), 10, false, false, -300));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
 
         if (beeLancerSpawnTimer > timeBetweenSpawnsBeeLancer) { // ABEJA LANCERA
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("bee_lancer.png"), 5, false, false, -400));
+                    ByeBee.WIDTH / 5, ByeBee.HEIGHT / 5, new Texture("spriteBeeLancer.png"), 5, false, false, -500));
 
             beeLancerSpawnTimer -= timeBetweenSpawnsBeeLancer;
         }

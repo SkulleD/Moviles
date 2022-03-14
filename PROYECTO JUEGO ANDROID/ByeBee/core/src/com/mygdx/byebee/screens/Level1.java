@@ -147,7 +147,7 @@ public class Level1 implements Screen {
     private float timeBetweenSpawnsEscudo = 16f;
 
     /**
-     * Sirve como base para los cálculos de aparición de los enemigos pájaros.
+     * Sirve como base para los cálculos de aparición de los enemigos ESCARABAJOS.
      */
     private float birdSpawnTimer = 0;
 
@@ -478,7 +478,7 @@ public class Level1 implements Screen {
 
         if (birdSpawnTimer > timeBetweenSpawnsBird) { // ESCARABAJO
             enemyList.add(new Enemy(ByeBee.WIDTH, (float) (Math.random() * ByeBee.HEIGHT + 1),
-                    ByeBee.WIDTH / 4, ByeBee.HEIGHT / 5, new Texture("spriteBeetle.png"), 10, false, false, -650));
+                    ByeBee.WIDTH / 3, ByeBee.HEIGHT / 4, new Texture("spriteBeetle.png"), 10, false, false, -650));
 
             birdSpawnTimer -= timeBetweenSpawnsBird;
         }
