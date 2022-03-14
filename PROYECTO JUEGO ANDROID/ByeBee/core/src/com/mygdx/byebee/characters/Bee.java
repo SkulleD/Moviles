@@ -88,7 +88,7 @@ public class Bee extends Character {
         checkMusicSound = preferences.getBoolean("musicSound", true);
 
         soundFly = Gdx.audio.newSound(Gdx.files.internal("sound_Fly.mp3"));
-        soundFly.setVolume(1, 1);
+        soundFly.setVolume(1, 0.3f);
     }
 
     /**
@@ -124,8 +124,6 @@ public class Bee extends Character {
             if (posY > 0 && posY < ByeBee.HEIGHT) { // Restablece la gravedad a la normalidad
                 GRAVITY = -4;
             }
-
-            accelerate();
         }
     }
 
@@ -151,33 +149,6 @@ public class Bee extends Character {
             } else {
                 posY = 0;
             }
-        }
-    }
-
-    /**
-     * Método que usa el acelerómetro con la abeja en el método update();
-     */
-    public void accelerate() {
-        float renderX = 100;
-        float renderY = 100;
-
-        renderX += Gdx.input.getAccelerometerX();
-        renderY -= Gdx.input.getAccelerometerY();
-
-        if (renderX < 0) {
-            renderX = 0;
-        }
-
-        if (renderX > ByeBee.WIDTH - 200) {
-            renderX = ByeBee.WIDTH - 200;
-        }
-
-        if (renderY < 0) {
-            renderY = 0;
-        }
-
-        if (renderY > ByeBee.HEIGHT - 200) {
-            renderY = ByeBee.HEIGHT - 200;
         }
     }
 
