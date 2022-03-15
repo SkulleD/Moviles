@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -16,7 +17,7 @@ import com.mygdx.byebee.characters.Bee;
 import com.mygdx.byebee.characters.Options;
 
 /**
- * Esta pantalla sirve para activar/desactivar varios parámetros: invencibilidad, música/sonidos y pantalla completa.
+ * Esta pantalla sirve para activar/desactivar varios parámetros: invencibilidad, música/sonidos, pantalla completa y controles por movimiento.
  */
 public class SettingsScreen implements Screen {
 
@@ -86,6 +87,16 @@ public class SettingsScreen implements Screen {
     private Options btnFullScreenOFF;
 
     /**
+     * Botón para activar los controles por movimiento (solo en Android).
+     */
+    private Options btnAcelerometroON;
+
+    /**
+     * Botón para desactivar los controles por movimiento (solo en Android).
+     */
+    private Options btnAcelerometroOFF;
+
+    /**
      * Se usa para poder utilizar persistencia de datos.
      */
     private Preferences preferences;
@@ -96,19 +107,24 @@ public class SettingsScreen implements Screen {
     Graphics.DisplayMode displayMode;
 
     /**
-     * Variable que sirve para guardar el valor persistente de la invencibilidad
+     * Variable que sirve para guardar el valor persistente de la invencibilidad.
      */
     private boolean godmode;
 
     /**
-     * Variable que sirve para guardar el valor persistente de la pantalla completa
+     * Variable que sirve para guardar el valor persistente de la pantalla completa.
      */
     private boolean fullscreen;
 
     /**
-     * Variable que sirve para guardar el valor persistente de la música y sonidos
+     * Variable que sirve para guardar el valor persistente de la música y sonidos.
      */
     private boolean musicSound;
+
+    /**
+     * Variable que sirve para guardar el valor persistente de los controles por movimiento.
+     */
+    private boolean acelerometro;
 
     /**
      * Constructor que inicializa los campos necesario de esta pantalla.
@@ -123,19 +139,21 @@ public class SettingsScreen implements Screen {
         godmode = preferences.getBoolean("invencible", false);
         fullscreen = preferences.getBoolean("fullscreen", false);
         musicSound = preferences.getBoolean("musicSound", true);
+        acelerometro = preferences.getBoolean("acelerometro", false);
 
         soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
         soundBtnClick.setVolume(7, 1);
 
         bgSettings = new Texture("beeSettings_vacio.png");
         btnBack = new Options(0, 0, ByeBee.WIDTH / 7, ByeBee.HEIGHT / 7, new Texture("btn_Atras.png"));
-        btnGodModeON = new Options(btnBack.getPosX() + btnBack.getWidth() / 5, btnBack.getHeight() * 3, ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_GodmodeON.png"));
+        btnGodModeON = new Options(btnBack.getPosX() + btnBack.getWidth() / 5, btnBack.getHeight() * 4, ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_GodmodeON.png"));
         btnGodModeOFF = new Options(btnGodModeON.getPosX() + btnBack.getWidth(), btnGodModeON.getPosY(), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_GodmodeOFF.png"));
         btnMusicON = new Options(btnGodModeON.getPosX() + ByeBee.WIDTH / 3, btnGodModeON.getPosY(), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_MusicaON.png"));
         btnMusicOFF = new Options(btnMusicON.getPosX() + btnBack.getWidth(), btnGodModeON.getPosY(), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_MusicaOFF.png"));
         btnFullScreenON = new Options(btnMusicON.getPosX() + ByeBee.WIDTH / 3, btnGodModeON.getPosY(), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_FullscreenON.png"));
         btnFullScreenOFF = new Options(btnFullScreenON.getPosX() + btnBack.getWidth(), btnGodModeON.getPosY(), ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_FullscreenOFF.png"));
-
+        btnAcelerometroON = new Options(btnMusicON.getPosX(), btnMusicON.getPosY() - btnGodModeON.getHeight() * 3, ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_AcelerometroON.png"));
+        btnAcelerometroOFF = new Options(btnMusicON.getPosX() + btnBack.getWidth(), btnMusicON.getPosY() - btnGodModeON.getHeight() * 3, ByeBee.WIDTH / 8, ByeBee.HEIGHT / 8, new Texture("btn_AcelerometroOFF.png"));
         spriteBatch = new SpriteBatch();
     }
 
@@ -162,6 +180,8 @@ public class SettingsScreen implements Screen {
         spriteBatch.draw(btnMusicOFF.getTexture(), btnMusicOFF.getPosX(), btnMusicOFF.getPosY(), btnMusicOFF.getWidth(), btnMusicOFF.getHeight());
         spriteBatch.draw(btnFullScreenON.getTexture(), btnFullScreenON.getPosX(), btnFullScreenON.getPosY(), btnFullScreenON.getWidth(), btnFullScreenON.getHeight());
         spriteBatch.draw(btnFullScreenOFF.getTexture(), btnFullScreenOFF.getPosX(), btnFullScreenOFF.getPosY(), btnFullScreenOFF.getWidth(), btnFullScreenOFF.getHeight());
+        spriteBatch.draw(btnAcelerometroON.getTexture(), btnAcelerometroON.getPosX(), btnAcelerometroON.getPosY(), btnAcelerometroON.getWidth(), btnAcelerometroON.getHeight());
+        spriteBatch.draw(btnAcelerometroOFF.getTexture(), btnAcelerometroOFF.getPosX(), btnAcelerometroOFF.getPosY(), btnAcelerometroOFF.getWidth(), btnAcelerometroOFF.getHeight());
         detectTouch();
         spriteBatch.end();
     }
@@ -266,6 +286,29 @@ public class SettingsScreen implements Screen {
                             preferences.putBoolean("fullscreen", fullscreen);
                             preferences.flush();
                         }
+                    }
+                case Android:
+                    // Activa o desactiva el control por movimiento (solo en Android).
+                    if (btnAcelerometroON.getBoton().contains(touched)) {
+                        System.out.println("ACELEROMETRO ON");
+                        if (musicSound) {
+                            soundBtnClick.play();
+                        }
+
+                        acelerometro = true;
+                        preferences.putBoolean("acelerometro", acelerometro);
+                        preferences.flush();
+                    }
+
+                    if (btnAcelerometroOFF.getBoton().contains(touched)) {
+                        System.out.println("ACELEROMETRO OFF");
+                        if (musicSound) {
+                            soundBtnClick.play();
+                        }
+
+                        acelerometro = false;
+                        preferences.putBoolean("acelerometro", acelerometro);
+                        preferences.flush();
                     }
             }
         }
