@@ -1,5 +1,6 @@
 package com.mygdx.byebee.screens;
 
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -104,7 +105,7 @@ public class TitleScreen implements Screen {
         soundBtnClick = Gdx.audio.newSound(Gdx.files.internal("sound_clickBtn.mp3"));
         soundBtnClick.setVolume(7, 1);
 
-        bgTitle = new Texture("beeTitleFinal.png");
+        bgTitle = new Texture("beeTitle.png");
         optionsInfo = new Options(0, 0, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_info.png"));
         optionsCredits = new Options(0,0, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_credits.png"));
         optionsSettings = new Options(0, 0, ByeBee.WIDTH / 6, ByeBee.HEIGHT / 6, new Texture("btn_options.png"));
