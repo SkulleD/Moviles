@@ -71,9 +71,10 @@ public class Bee extends Character {
      */
     private boolean checkAccelerometer;
 
+    /**
+     * Valor que se utiliza para comprobar que el valor del acelerómetro en la coordenada Y es mayor que 0.
+     */
     private float coordYcero;
-
-    private int anguloDispositivo;
 
     /**
      * Constructor que inicializa los parámetros iniciales de la abeja.
@@ -101,7 +102,6 @@ public class Bee extends Character {
         soundFly.setVolume(1, 0.3f);
 
         coordYcero = 0.0f;
-        anguloDispositivo = Gdx.input.getRotation();
     }
 
     /**
@@ -152,7 +152,7 @@ public class Bee extends Character {
      * Método que sirve para que la abeja pegue un salto cada vez que se toca la pantalla.
      */
     public void fly() {
-        if (Gdx.input.justTouched() && this.health > 0 && checkAccelerometer) {
+        if (Gdx.input.justTouched() && this.health > 0 && !checkAccelerometer) {
             if (checkMusicSound) {
                 soundFly.play();
             }
@@ -162,7 +162,7 @@ public class Bee extends Character {
             } else {
                 posY = 0;
             }
-        } else if (this.health > 0 && !checkAccelerometer){
+        } else if (this.health > 0 && checkAccelerometer){
             if (Gdx.input.getAccelerometerY() > coordYcero) {
                 if (posY > 0) {
                     if (checkMusicSound) {
