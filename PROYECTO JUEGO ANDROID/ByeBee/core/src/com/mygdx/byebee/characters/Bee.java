@@ -67,6 +67,15 @@ public class Bee extends Character {
     private boolean checkMusicSound;
 
     /**
+     * Comprueba si la opción de activar/desactivar el acelerómetro había sido seleccionada.
+     */
+    private boolean checkAccelerometer;
+
+    private float coordYcero;
+
+    private int anguloDispositivo;
+
+    /**
      * Constructor que inicializa los parámetros iniciales de la abeja.
      * @param posX La posición en el eje X de la abeja.
      * @param posY La posición en el eje Y de la abeja.
@@ -86,9 +95,13 @@ public class Bee extends Character {
         preferences = Gdx.app.getPreferences("byebee");
         this.invencible = preferences.getBoolean("invencible", false);
         checkMusicSound = preferences.getBoolean("musicSound", true);
+        checkAccelerometer = preferences.getBoolean("acelerometro", false);
 
         soundFly = Gdx.audio.newSound(Gdx.files.internal("sound_Fly.mp3"));
         soundFly.setVolume(1, 0.3f);
+
+        coordYcero = 0.0f;
+        anguloDispositivo = Gdx.input.getRotation();
     }
 
     /**
@@ -139,7 +152,7 @@ public class Bee extends Character {
      * Método que sirve para que la abeja pegue un salto cada vez que se toca la pantalla.
      */
     public void fly() {
-        if (Gdx.input.justTouched() && this.health > 0) {
+        if (Gdx.input.justTouched() && this.health > 0 && checkAccelerometer) {
             if (checkMusicSound) {
                 soundFly.play();
             }
@@ -148,6 +161,18 @@ public class Bee extends Character {
                 speed.y = 170;
             } else {
                 posY = 0;
+            }
+        } else if (this.health > 0 && !checkAccelerometer){
+            if (Gdx.input.getAccelerometerY() > coordYcero) {
+                if (posY > 0) {
+                    if (checkMusicSound) {
+                        soundFly.play();
+                    }
+
+                    speed.y = Gdx.input.getAccelerometerY() + 170;
+                } else {
+                    posY = 0;
+                }
             }
         }
     }
