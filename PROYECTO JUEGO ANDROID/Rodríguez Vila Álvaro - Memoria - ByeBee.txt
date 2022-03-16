@@ -1,0 +1,29 @@
+El videojuego ByeBee incluye las siguientes características que se añaden a las mínimas requeridas:
+
+Uso de acelerómetro para controlar al personaje moviendo el dispositivo.
+Icono propio.
+Pantalla completa (tanto en Android como en escritorio de PC).
+Música de fondo y efectos sonoros de libre distribución.
+Estilo de fuente no nativa.
+Uso de Sprites animados.
+Detección de colisiones.
+Guardado de configuración del juego (persistencia de datos).
+Pantallas: Menú principal, selector de niveles, opciones del juego, récords, créditos, ayuda.
+Control de escenas.
+
+----------------------------------------
+Puntos que mejoran la nota:
+
+Selector de niveles (4 niveles en total).
+Fondos Parallax en movimiento.
+Creación propia de gráficos.
+Creación propia de gravedad.
+
+----------------------------------------
+El desarrollo del juego ha durado más o menos 1 mes y medio ha sido una buena experiencia
+el crear yo mismo un juego todo de 0, sobre todo la parte de programarlo yo, ya que yo
+ya había hecho 4 juegos anteriormente, pero todos usando RPG Maker VX Ace, con el cual
+puedes crear juegos sabiendo solo cosas básicas de programación.
+Me sentí muy realizado al terminar ByeBee y ver lo que había conseguido hacer en
+relativamente poco tiempo. Ha merecido la pena.
+Lo que más me ha gustado aparte de programar yo el juego ha sido crear los gráficos del mismo.
